@@ -1,0 +1,42 @@
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+}S
+html,body{
+    width: 100%;
+    height: 100%;
+    margin:0;
+    background-image:url("https://www.casthighlight.com/wp-content/uploads/2018/03/apibackground.png");
+}
+
+.title{
+    color: whitesmoke;
+    font-family: "Algerian";
+    font-size: 55px;
+    position: center;
+}
+.subTitle{
+    color:whitesmoke;
+    font-family: "Lucida Handwriting";
+    font-size: 35px;
+}
+.myFont{
+    font-family: "Comic Sans MS";
+    font-size: 20px;
+    color: #ffffff;
+}
+.aButton{
+    width: 200px;
+    height: 50px;
+    position: center;
+}
+.aButton{
+    position: center;
+}
+form{
+    text-align: center;
+}

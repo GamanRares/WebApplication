@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view locale="#{internationalization_BackingBean.locale}">
+
+    <h:head>
+
+
+        <title>Homepage</title>
+        <h:outputStylesheet library="css" name="Homepagestyles.css"/>
+    </h:head>
+
+    <h:body>
+        <p:growl id="growl" showDetail="true" sticky="false"/>
+        <div class="centered">
+            <h:form id="form1">
+
+                <img src="resources/LogoMSG1.png" alt="LogoMSG" width="350" height="150" align="right"/>
+                <img src="resources/TeamFixers.jpg" alt="LogoFixers" width="300" height="150" align="left"/>
+                <br/>
+
+                <!--Header begin-->
+
+                <h3 class="title"><h:outputText value="#{msg['HomepageTitle']}"/></h3>
+
+                <h4 class="title"><h:outputText value="#{msg['LoggedInAs']} #{login_BackingBean.username}"/></h4>
+
+                <h:commandButton image="resources/RomaniaFlag.png"
+                                 action="#{internationalization_BackingBean.setLanguage('ro')}" immediate="true"
+                                 onchange="submit()"/>
+                <h:commandButton image="resources/USAFlag.png"
+                                 action="#{internationalization_BackingBean.setLanguage('en')}" immediate="true"
+                                 onchange="submit()"/>
+
+
+                <!--Header end-->
+
+
+                <!--Horizontal NavigationBar begin -->
+
+                <h:form id="form">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel for="orientation" value="#{msg['ChooseOption']}" styleClass="myFont"/>
+
+                        <p:selectOneButton id="orientation" value="#{navigationBar.orientation}"
+                                           onchange="$('#form').submit()">
+                        </p:selectOneButton>
+                    </h:panelGrid>
+                </h:form>
+
+                <p:megaMenu orientation="#{navigationBar.orientation}" style="margin-top:20px">
+
+                    <p:submenu label="#{msg['ManageRights']}" icon="ui-icon-check"
+                               rendered="#{login_BackingBean.hasRight('PERMISSION_MANAGEMENT')}">
+                        <p:column>
+                            <p:submenu label="#{msg['ManageRights']}">
+                                <p:menuitem value="#{msg['ChangeRights']}"
+                                            action="#{homepage_BackingBean.navigateToPage('WEB-INF/RightsComponents/PERMISSION_MANAGEMENT/ChangeRights.xhtml')}"
+                                            ajax="false"/>
+                            </p:submenu>
+                        </p:column>
+                    </p:submenu>
+
+                    <p:submenu label="#{msg['ManageUser']}" icon="ui-icon-document"
+                               rendered="#{login_BackingBean.hasRight('USER_MANAGEMENT')}">
+
+                        <p:column>
+                            <p:submenu label="#{msg['ManageUser']}">
+                                <p:menuitem value="#{msg['AddUser']}"
+                                            action="#{homepage_BackingBean.navigateToPage('WEB-INF/RightsComponents/USER_MANAGEMENT/AddUser.xhtml')}"
+                                            ajax="false"/>
+                                <p:menuitem value="#{msg['EditUser']}"
+                                            action="#{homepage_BackingBean.navigateToPage('WEB-INF/RightsComponents/USER_MANAGEMENT/EditUser.xhtml')}"
+                                            ajax="false"/>
+                                <p:menuitem value="#{msg['DeactivateUser']}"
+                                            action="#{homepage_BackingBean.navigateToPage('WEB-INF/RightsComponents/USER_MANAGEMENT/DeleteUser.xhtml')}"
+                                            ajax="false"/>
+                            </p:submenu>
+                        </p:column>
+                    </p:submenu>
+
+
+                    <p:submenu label="#{msg['ManageBugs']}"
+                               rendered="#{login_BackingBean.hasRight('BUG_CLOSE') || login_BackingBean.hasRight('BUG_MANAGEMENT')}"
+                               icon="ui-icon-pencil">
+                        <p:column>
+                            <p:submenu label="#{msg['ManageBugs']}"
+                                       rendered="#{login_BackingBean.hasRight('BUG_CLOSE') || login_BackingBean.hasRight('BUG_MANAGEMENT') }">
+                                <p:menuitem value="#{msg['ViewBugs']}"
+                                            action="#{homepage_BackingBean.navigateToPage('WEB-INF/RightsComponents/BUG_MANAGEMENT/ViewBugs.xhtml')}"
+                                            ajax="false" rendered="#{login_BackingBean.hasRight('BUG_MANAGEMENT')}"/>
+                                <p:menuitem value="#{msg['AddBugs']}"
+                                            action="#{homepage_BackingBean.navigateToPage('WEB-INF/RightsComponents/BUG_MANAGEMENT/AddBug.xhtml')}"
+                                            ajax="false" rendered="#{login_BackingBean.hasRight('BUG_MANAGEMENT')}"/>
+                                <p:menuitem value="#{msg['EditBugs']}"
+                                            action="#{homepage_BackingBean.navigateToPage('WEB-INF/RightsComponents/BUG_MANAGEMENT/EditBug.xhtml')}"
+                                            ajax="false" rendered="#{login_BackingBean.hasRight('BUG_MANAGEMENT')}"/>
+                                <p:menuitem value="#{msg['CloseBugs']}"
+                                            action="#{homepage_BackingBean.navigateToPage('WEB-INF/RightsComponents/BUG_CLOSE/CloseBug.xhtml')}"
+                                            ajax="false"
+                                            rendered="#{login_BackingBean.hasRight('BUG_CLOSE')}"/>
+                                <p:menuitem value="#{msg['UpdateBugStatus']}"
+                                            action="#{homepage_BackingBean.navigateToPage('WEB-INF/RightsComponents/BUG_MANAGEMENT/ChangeBugStatus.xhtml')}"
+                                            ajax="false"
+                                            rendered="#{login_BackingBean.hasRight('BUG_CLOSE') || login_BackingBean.hasRight('BUG_MANAGEMENT')}"/>
+                            </p:submenu>
+                        </p:column>
+                    </p:submenu>
+
+
+                    <p:submenu label="#{msg['Notifications']}" icon="ui-icon-contact">
+                        <p:column>
+                            <p:submenu label="#{msg['Notifications']}">
+                                <p:menuitem value="#{msg['ViewNotifications']}"
+                                            action="#{homepage_BackingBean.navigateToPage('WEB-INF/NotificationsComponent/ViewNotifications.xhtml')}"
+                                            ajax="false"/>
+                            </p:submenu>
+                        </p:column>
+                    </p:submenu>
+
+
+                    <p:submenu label="#{msg['BugExportPDF']}" icon="ui-icon-contact"
+                               rendered="#{login_BackingBean.hasRight('BUG_EXPORT_PDF')}">
+                        <p:column>
+                            <p:submenu label="#{msg['BugExportPDF']}">
+                                <p:menuitem value="#{msg['ExportPDF']}"
+                                            action="#{homepage_BackingBean.navigateToPage('WEB-INF/RightsComponents/BUG_EXPORT_PDF/ExportBugPdf.xhtml')}"
+                                            ajax="false"/>
+                            </p:submenu>
+                        </p:column>
+                    </p:submenu>
+
+                    <!--or we can choose this option: <p:menuitem value="Logout" action="#{homepageBackingBean.goTo('/login.xhtml')}"-->
+                    <!--ajax="false"/>-->
+                    <p:menuitem value="#{msg['Logout']}" url="login.xhtml" icon="ui-icon-close"
+                                action="#{login_BackingBean.logout}"/>
+                </p:megaMenu>
+
+
+                <!--Horizontal NavigationBar end -->
+
+
+            </h:form>
+            <h:panelGroup>
+                <ui:include src="#{homepage_BackingBean.page}"/>
+            </h:panelGroup>
+        </div>
+    </h:body>
+
+
+    <!--<h:outputLabel value="Admin components: "/>-->
+
+    <!--<h:panelGroup id="include" rendered="#{loginBackingBean.hasRight('BUG_EXPORT_PDF')}">-->
+    <!--<ui:include src="PermissionComponents/BUG_CLOSE/CloseBug.xhtml"/>-->
+    <!--</h:panelGroup>-->
+
+
+</f:view>
+</html>

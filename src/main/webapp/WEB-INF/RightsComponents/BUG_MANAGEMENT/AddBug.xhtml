@@ -1,0 +1,51 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+
+    <h2 class="title"><h:outputText value="#{msg['AddBugTitle']}"/></h2>
+    <h:outputText styleClass="myFont"/>
+    <h:outputStylesheet library="css" name="Homepagestyles.css"/>
+
+    <h:form enctype="multipart/form-data">
+        <p:growl id="messages" showDetail="true" styleClass="myFont"/>
+        <div>
+            <h5 class="title"><h:outputText value="#{msg['Title']}"/></h5>
+            <h:outputText styleClass="myFont"/>
+            <h:inputText id="title" value="#{addBug_BackingBean.title}" required="true"/>
+            <br/>
+            <h5 class="title"><h:outputText value="#{msg['Description']}"/></h5>
+            <h:outputText styleClass="myFont"/>
+            <p:inputTextarea rows="6" cols="33" value="#{addBug_BackingBean.description}" required="true"/>
+            <br/>
+            <p:outputLabel for="button" value="#{msg['TargetDate']}" styleClass="myFont"/>
+            <p:calendar id="button" value="#{addBug_BackingBean.targetDate}" showOn="button"/>
+            <br/>
+            <h:outputText value="#{msg['Severity']}" styleClass="myFont"/>
+            <p:selectOneMenu id="console" value="#{addBug_BackingBean.selectOneSeverity}" style="width:125px"
+                             styleClass="myFont">
+                <f:selectItem itemLabel="#{msg['Low']}" itemValue="low"/>
+                <f:selectItem itemLabel="#{msg['Medium']}" itemValue="medium"/>
+                <f:selectItem itemLabel="#{msg['High']}" itemValue="high"/>
+                <f:selectItem itemLabel="#{msg['Critical']}" itemValue="critical"/>
+            </p:selectOneMenu>
+            <br/>
+            <h:outputText value="#{msg['AssignedTo']}" styleClass="myFont"/>
+            <h:inputText id="assigned" value="#{addBug_BackingBean.assignedToUsername}" required="true" label="assigned"/>
+            <br/>
+
+            <h:outputText value="#{msg['Attachment']}" styleClass="myFont"/>
+
+            <p:fileUpload value="#{addBug_BackingBean.uploadedFile}" mode="simple" skinSimple="true"
+                          label="#{msg['Choose']}" style="color: white"/>
+            <p:commandButton value="#{msg['Upload']}" ajax="false" actionListener="#{addBug_BackingBean.upload}"/>
+            <br/><br/>
+
+            <p:commandButton value="#{msg['Add']}" action="#{addBug_BackingBean.saveBug}"
+                             actionListener="#{addBug_BackingBean.clickCalendar}"
+                             ajax="false"/>
+        </div>
+    </h:form>
+</ui:composition>

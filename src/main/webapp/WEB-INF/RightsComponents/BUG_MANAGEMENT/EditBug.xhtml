@@ -1,0 +1,92 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+
+    <f:view>
+        <h2 class="title"><h:outputText value="#{msg['EditBugs']}"/></h2>
+        <p:growl id="editBugGrowl" showDetail="true" sticky="false"/>
+        <h:form id="searchBug">
+            <h:outputText value="#{msg['EnterAssignedUsernameToFindTheBug']}" styleClass="myFont"/>
+            <h:inputText id="assignedToUser" value="#{editBug_BackingBean.usernameAssignedTo}" required="true"
+                         label="#{msg['AssignedTo']}"/>
+            <br/>
+            <p:commandButton value="#{msg['Search']}" action="#{editBug_BackingBean.searchUsername}"
+                             ajax="true"
+                             update=":searchBug:outputLabel listBug"
+                             styleClass="aButton"/>
+            <br/>
+            <p:outputLabel id="outputLabel" value="#{editBug_BackingBean.outputMessage}" styleClass="myFont"/>
+        </h:form>
+        <br/>
+        <h:form id="listBug">
+            <p:dataTable id="editBug" var="bug" value="#{editBug_BackingBean.bugsAssignedToUser}"
+                         selectionMode="single"
+                         rowKey="#{bug.id}"
+                         editable="true" editMode="cell"
+                         style="margin-bottom:20px" emptyMessage="#{msg['NoRecordsFound']}">
+
+                <p:ajax event="cellEdit" listener="#{editBug_BackingBean.onCellEdit}" update="editBug editBugGrowl"/>
+
+                <p:column headerText="Id">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{bug.id}"/></f:facet>
+                        <f:facet name="input"><p:inputText id="modelInput" value="#{bug.id}"
+                                                           style="width:100%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="#{msg['Title']}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{bug.title}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{bug.title}" style="width:100%"
+                                                           label="title"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="#{msg['Description']}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{bug.description}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{bug.description}" style="width:100%"
+                                                           label="description"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="#{msg['Version']}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{bug.version}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{bug.version}" style="width:100%"
+                                                           label="version"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="#{msg['Severity']}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{bug.severity}"/></f:facet>
+                        <f:facet name="input">
+                            <h:selectOneMenu value="#{bug.severity}" style="width:100%">
+                                <f:selectItems value="#{editBug_BackingBean.bugSeverities}"/>
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="#{msg['AssignedTo']}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{bug.assignedTo}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{bug.assignedTo}" style="width:100%"
+                                                           label="assignedTo"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+            </p:dataTable>
+
+            <p:contextMenu for="editBug" widgetVar="cMenu">
+                <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellBugs').showCellEditor();return false;"/>
+                <p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>
+            </p:contextMenu>
+        </h:form>
+    </f:view>
+</ui:composition>

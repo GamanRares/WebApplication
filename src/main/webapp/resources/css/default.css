@@ -1,0 +1,11 @@
+.ui-widget, .ui-widget .ui-widget {
+    font-size: 95%;
+}
+.dialogDivParent{
+    text-align:center;
+    position:relative;
+}
+.dialogDivElement{
+    position:relative;
+    display:inline-block;
+}

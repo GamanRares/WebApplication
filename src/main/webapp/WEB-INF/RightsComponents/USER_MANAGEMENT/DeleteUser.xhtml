@@ -1,0 +1,36 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+
+    <f:view>
+        <p:growl id="deactivateUserGrowl" showDetail="true" sticky="false"/>
+
+        <div class="centered">
+
+            <h:outputStylesheet library="css" name="Homepagestyles.css"/>
+
+            <h:form id="form">
+                <p:defaultCommand target="deactivateUser"/>
+                <h3 class="title"><h:outputText value="#{msg['DeactivateUserTitle']}"/></h3>
+
+                <p:outputLabel for="selectUsername" styleClass="myFont" value="#{msg['SelectUsername']}" color="white"/>
+                <p:selectOneMenu id="selectUsername" value="#{deactivateUser_BackingBean.usernameToUpdate}" filter="true"
+                                 filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{msg['SelectAUser']}" itemValue=""/>
+                    <f:selectItems value="#{deactivateUser_BackingBean.users}"/>
+                    <p:ajax event="change" listener="#{deactivateUser_BackingBean.handleChange}" ajaxSingle="true"
+                            execute="@this" update="@form deactivateUserGrowl"/>
+                </p:selectOneMenu>
+                <br/>
+                <br/>
+                <p:commandButton id="deactivateUser" value="#{msg['DeactivateUser']}" action="#{deactivateUser_BackingBean.saveData()}"
+                                 ajax="true" update="deactivateUserGrowl"
+                                 styleClass="aButton"/>
+            </h:form>
+        </div>
+    </f:view>
+
+</ui:composition>

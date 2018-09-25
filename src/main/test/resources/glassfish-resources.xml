@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE resources PUBLIC
+        "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN"
+        "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <jdbc-resource pool-name="ArquillianDerbyPool" jndi-name="jdbc/arquillian"/>
+    <jdbc-connection-pool name="ArquillianDerbyPool"
+                          res-type="javax.sql.DataSource"
+                          datasource-classname="org.apache.derby.jdbc.EmbeddedDataSource"
+                          is-isolation-level-guaranteed="false">
+        <property name="databaseName" value="target/databases/derby"/>
+        <property name="createDatabase" value="create"/>
+    </jdbc-connection-pool>
+    <!--<jdbc-resource pool-name="ArquillianMySqlPool" jndi-name="jdbc/arquillian"/>-->
+    <!--<jdbc-connection-pool name="ArquillianMySqlPool"-->
+                          <!--res-type="javax.sql.DataSource"-->
+                          <!--datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource">-->
+        <!--<property name="databaseName" value="fixers_schema"/>-->
+        <!--<property name="password" value="root"/>-->
+        <!--<property name="serverName" value="localhost"/>-->
+        <!--<property name="user" value="root"/>-->
+        <!--<property name="portNumber" value="3306"/>-->
+        <!--<property name="verifyServerCertificate" value="false"/>-->
+        <!--<property name="useSSL" value="false"/>-->
+    <!--</jdbc-connection-pool>-->
+</resources>

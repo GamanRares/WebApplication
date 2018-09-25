@@ -1,0 +1,45 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <p:growl id="closeStatusBugGrowl" showDetail="true" sticky="false"/>
+        <h:form id="closeBugAfterUser">
+            <h:outputText value="#{msg['EnterAssignedUsernameToFindTheBug']}" styleClass="myFont"/>
+            <h:inputText id="assignedToUser" value="#{updateBugStatus_BackingBean.usernameAssignedTo}" required="true"
+                         label="#{msg['AssignedTo']}"/>
+            <br/>
+            <p:commandButton value="#{msg['Search']}" action="#{updateBugStatus_BackingBean.searchUsernameClose}"
+                             ajax="true"
+                             update="bugCloseForm"
+                             styleClass="aButton"/>
+        </h:form>
+        <br/>
+        <h:form id="bugCloseForm">
+            <div class="centered">
+                <p:dataTable var="bug" id="bugCloseTable" value="#{updateBugStatus_BackingBean.bugsSelected}"
+                             selectionMode="single" selection="#{updateBugStatus_BackingBean.selectedBug}" rowKey="#{bug.id}"
+                             emptyMessage="#{msg['NoRecordsFound']}"
+                             lazy="true" paginator="true" rows="5"
+                >
+                    <p:ajax event="rowSelect" listener="#{updateBugStatus_BackingBean.rowSelected}"
+                            update="bugCloseTable closeStatusBugGrowl"/>
+                    <p:column headerText="#{msg['Bug']}">
+                        <h:outputText value="#{bug.id}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['Title']}">
+                        <h:outputText value="#{bug.title}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['Status']}">
+                        <h:outputText value="#{bug.status}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="#{msg['CloseBug']}" action="#{updateBugStatus_BackingBean.closeBugStatus}"
+                                 ajax="false"/>
+            </div>
+        </h:form>
+    </f:view>
+</ui:composition>

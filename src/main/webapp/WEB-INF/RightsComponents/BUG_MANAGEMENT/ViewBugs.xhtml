@@ -1,0 +1,108 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h2 class="title"><h:outputText value="#{msg['ViewBugs']}"/></h2>
+        <h:form id="bugsListForm">
+            <div class="centered">
+                <p:dataTable var="bug" id="bugsTable" value="#{viewBugs_BackingBean}"
+                             rowKey="#{bug.id}"
+                             emptyMessage="#{msg['NoRecordsFound']}"
+                             lazy="true" paginator="true" rows="5"
+                             editable="true" editMode="cell" cellEditMode="lazy"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                >
+
+                    <p:column id="c1" headerText="#{msg['Bug']}" sortBy="#{bug.id}" filterBy="#{bug.id}">
+                        <h:outputText value="#{bug.id}"/>
+                    </p:column>
+
+                    <p:column id="c2" headerText="#{msg['Title']}" sortBy="#{bug.title}" filterBy="#{bug.title}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{bug.title}"/>
+                    </p:column>
+
+                    <p:column id="c3" headerText="#{msg['Description']}" width="155" sortBy="#{bug.description}"
+                              filterBy="#{bug.description}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{bug.description}"/>
+                    </p:column>
+
+                    <p:column id="c4" headerText="#{msg['Version']}" sortBy="#{bug.version}" filterBy="#{bug.version}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{bug.version}"/>
+                    </p:column>
+
+                    <p:column id="c5" headerText="#{msg['FixingVersion']}" sortBy="#{bug.fixingVersion}"
+                              filterBy="#{bug.fixingVersion}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{bug.fixingVersion}"/>
+                    </p:column>
+
+                    <p:column id="c6" headerText="#{msg['TargetDate']}" sortBy="#{bug.targetDate}"
+                              filterBy="#{bug.targetDate}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{bug.targetDate}"/>
+                    </p:column>
+
+                    <p:column id="c7" headerText="#{msg['Severity']}" sortBy="#{bug.severity}"
+                              filterBy="#{bug.severity}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{bug.severity}"/>
+                    </p:column>
+
+                    <p:column id="c8" headerText="#{msg['Status']}" sortBy="#{bug.status}" filterBy="#{bug.status}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{bug.status}"/>
+                    </p:column>
+
+                    <p:column id="c9" headerText="#{msg['CreatedBy']}" sortBy="#{bug.createdBy.username}"
+                              filterBy="#{bug.createdBy}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{bug.createdBy.username}"/>
+                    </p:column>
+
+                    <p:column id="c10" headerText="#{msg['AssignedTo']}" sortBy="#{bug.assignedTo.username}"
+                              filterBy="#{bug.assignedTo}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{bug.assignedTo.username}"/>
+                    </p:column>
+
+                    <p:column id="c11" headerText="#{msg['Attachment']}" sortBy="#{bug.attachment.attachmentName}"
+                              filterBy="#{bug.attachment.attachmentName}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{bug.attachment.attachmentName}"/>
+                    </p:column>
+
+                    <p:column id="c12" headerText="#{msg['Notification']}" sortBy="#{bug.notification.notification_id}"
+                              filterBy="#{bug.notification.notification_id}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{bug.notification.notification_id}"/>
+                    </p:column>
+
+                </p:dataTable>
+
+                <br/>
+                <br/>
+                <br/>
+            </div>
+
+
+
+
+            <p:commandButton value="#{msg['ExportTableAsExcel']}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" immediate="true"
+                             icon="ui-icon-arrowthick-1-s">
+                <p:fileDownload value="#{excelCreation_BackingBean.file}"/>
+            </p:commandButton>
+
+
+            <br/>
+            <br/>
+
+
+        </h:form>
+    </f:view>
+</ui:composition>

@@ -1,0 +1,57 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <p:growl id="editStatusBugGrowl" showDetail="true" sticky="false"/>
+        <h:form id="searchBugAfterUser">
+            <h:outputText value="#{msg['EnterAssignedUsernameToFindTheBug']}" styleClass="myFont"/>
+            <h:inputText id="assignedToUser" value="#{updateBugStatus_BackingBean.usernameAssignedTo}" required="true"
+                         label="#{msg['AssignedTo']}"/>
+            <br/>
+            <p:commandButton value="#{msg['Search']}" action="#{updateBugStatus_BackingBean.searchUsername}"
+                             ajax="true"
+                             update="listUserBugs"
+                             styleClass="aButton"/>
+        </h:form>
+        <br/>
+
+        <h:form id="listUserBugs">
+            <p:dataTable id="updateBug" var="bug" value="#{updateBugStatus_BackingBean.bugsAssignedToUser}"
+                         selectionMode="single"
+                         rowKey="#{bug.id}"
+                         editable="true" editMode="cell"
+                         style="margin-bottom:20px" emptyMessage="#{msg['NoRecordsFound']}">
+
+                <p:ajax event="cellEdit" listener="#{updateBugStatus_BackingBean.onCellEdit}" update="editStatusBugGrowl"/>
+
+                <p:column headerText="#{msg['Title']}">
+                    <h:outputText value="#{bug.title}"/>
+                </p:column>
+                <p:column headerText="Status">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{bug.status}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:selectOneMenu value="#{updateBugStatus_BackingBean.myStatus}" style="width:100%">
+                                <f:selectItem itemLabel="new" itemValue="new" itemDisabled="#{updateBugStatus_BackingBean.acceptsStatusNew(bug.status)}"/>
+                                <f:selectItem itemLabel="in_progress" itemValue="in_progress" itemDisabled="#{updateBugStatus_BackingBean.acceptsStatusInProgress(bug.status)}"/>
+                                <f:selectItem itemLabel="info_needed" itemValue="info_needed" itemDisabled="#{updateBugStatus_BackingBean.acceptsStatusInfoNeeded(bug.status)}"/>
+                                <f:selectItem itemLabel="fixed" itemValue="fixed" itemDisabled="#{updateBugStatus_BackingBean.acceptsStatusFixed(bug.status)}"/>
+                                <f:selectItem itemLabel="rejected" itemValue="rejected" itemDisabled="#{updateBugStatus_BackingBean.acceptsStatusRejected(bug.status)}"/>
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:contextMenu for="updateBug" widgetVar="cMenu">
+                    <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellBugs').showCellEditor();return false;"/>
+                    <p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>
+                </p:contextMenu>
+
+            </p:dataTable>
+        </h:form>
+    </f:view>
+</ui:composition>

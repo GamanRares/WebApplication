@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:botDetect="http://java.sun.com/jsf/composite">
+<f:view locale="#{internationalization_BackingBean.locale}">
+    <h:head>
+
+        <img src="resources/LogoMSG1.png" alt="LogoMSGg" width="350" height="150"/>
+
+        <title>Login</title>
+        <h:outputStylesheet library="css" name="styles.css"/>
+    </h:head>
+
+    <h:body>
+        <p:growl id="invalideGrowl" showDetail="true" sticky="false"/>
+        <div class="centered">
+            <h:form id="form">
+                <h:commandButton image="resources/RomaniaFlag.png"
+                                 action="#{internationalization_BackingBean.setLanguage('ro')}" immediate="true"
+                                 onchange="submit()"/>
+                <h:commandButton image="resources/USAFlag.png"
+                                 action="#{internationalization_BackingBean.setLanguage('en')}" immediate="true"
+                                 onchange="submit()"/>
+                <br/>
+                <br/>
+                <h3 class="title"><h:outputText value="#{msg['InvalidPageTitle']}"/></h3>
+                <h2 class="subTitle"><h:outputText value="#{msg['InvalidPageSubTitle']}"/></h2>
+                <br/>
+                <br/>
+                <h:panelGroup>
+                    <ui:include src="#{invalidPage_BackingBean.page}"/>
+                </h:panelGroup>
+            </h:form>
+        </div>
+    </h:body>
+</f:view>
+
+</html>

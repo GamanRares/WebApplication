@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE html
+                PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+<ui:composition>
+    <f:view>
+
+
+            <h:head>
+                <img src="../resources/LogoMSG1.png" alt="LogoMSG" width="350" height="150" align="right"/>
+                <img src="../resources/TeamFixers.jpg" alt="LogoFixers" width="300" height="150" align="left"/>
+                <br/>
+                <title>Homepage</title>
+                <h:outputStylesheet library="css" name="Homepagestyles.css"/>
+            </h:head>
+            <h:body >
+                <p:growl id="growl" showDetail="true" sticky="false"/>
+                <div class="centered">
+                    <h:form id="form1">
+
+
+
+                        <!--Header begin-->
+
+                        <h1 class="title"> ~ JBugger ~</h1>
+
+
+
+
+
+
+                        <!--Header end-->
+
+                        <!--Horizontal NavigationBar begin -->
+
+                        <h:form id="form">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:outputLabel for="orientation" value="Choose an Option:" />
+                                <p:selectOneButton id="orientation" value="#{navigationBar.orientation}" onchange="$('#form').submit()">
+                                </p:selectOneButton>
+                            </h:panelGrid>
+                        </h:form>
+
+                        <p:megaMenu orientation="#{navigationBar.orientation}" style="margin-top:20px">
+                            <p:submenu label="Manage Rights" icon="ui-icon-check">
+                                <p:column>
+                                    <p:submenu label="ManageRights">
+                                        <p:menuitem value="ChangeRights"
+                                                    action="#{homepage_BackingBean.navigateToPage('PermissionComponents/PERMISSION_MANAGEMENT/ChangeRights.xhtml')}"
+                                                    ajax="false" />
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+
+                            <p:submenu label="Manage User" icon="ui-icon-document">
+
+                                <p:column>
+                                    <p:submenu label="ManagerUser">
+                                        <p:menuitem value="Add User" url="#" />
+                                        <p:menuitem value="Edit User" url="#" />
+                                        <p:menuitem value="Delete User" url="#" />
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+
+
+                            <p:submenu label="Manage Bugs" icon="ui-icon-pencil">
+                                <p:column>
+                                    <p:submenu label="ManageBugs">
+                                        <p:menuitem value="View Bugs" url="#" />
+                                        <p:menuitem value="Add Bugs"
+                                                    action="#{homepage_BackingBean.navigateToPage('PermissionComponents/BUG_MANAGEMENT/AddBug.xhtml')}"
+                                                    ajax="false"/>
+                                        <p:menuitem value="Edit Bugs" url="#" />
+                                        <p:menuitem value="Close Bugs" url="#" />
+                                        <p:menuitem value="Update Bug's Status" url="#" />
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+
+
+                            <p:submenu label="Notification" icon="ui-icon-contact">
+                                <p:column>
+                                    <p:submenu label="Notification">
+                                        <p:menuitem value="View Notification" url="#" />
+                                        <p:menuitem value="Auto Deletion" url="#" />
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+
+
+                            <p:submenu label="Bug Export PDF" icon="ui-icon-contact">
+                                <p:column>
+
+                                </p:column>
+                            </p:submenu>
+
+                            <!--or we can choose this option: <p:menuitem value="Logout" action="#{homepageBackingBean.goTo('/login.xhtml')}"-->
+                            <!--ajax="false"/>-->
+                            <p:menuitem value="Logout" url="http://localhost:8080/TeamFixers/login.xhtml" icon="ui-icon-close" />
+                        </p:megaMenu>
+
+
+                        <!--Horizontal NavigationBar end -->
+
+
+
+
+        </h:form>
+            </div>
+        </h:body>
+    </f:view>
+</ui:composition>
+
+</html>
