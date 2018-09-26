@@ -17,16 +17,16 @@
                 <h3 class="title"><h:outputText value="#{msg['DeactivateUserTitle']}"/></h3>
 
                 <p:outputLabel for="selectUsername" styleClass="myFont" value="#{msg['SelectUsername']}" color="white"/>
-                <p:selectOneMenu id="selectUsername" value="#{deactivateUser_BackingBean.usernameToUpdate}" filter="true"
+                <p:selectOneMenu id="selectUsername" value="#{deactivateUserBackingBean.usernameToUpdate}" filter="true"
                                  filterMatchMode="contains">
                     <f:selectItem itemLabel="#{msg['SelectAUser']}" itemValue=""/>
-                    <f:selectItems value="#{deactivateUser_BackingBean.users}"/>
-                    <p:ajax event="change" listener="#{deactivateUser_BackingBean.handleChange}" ajaxSingle="true"
+                    <f:selectItems value="#{deactivateUserBackingBean.users}"/>
+                    <p:ajax event="change" listener="#{deactivateUserBackingBean.handleChange}" ajaxSingle="true"
                             execute="@this" update="@form deactivateUserGrowl"/>
                 </p:selectOneMenu>
                 <br/>
                 <br/>
-                <p:commandButton id="deactivateUser" value="#{msg['DeactivateUser']}" action="#{deactivateUser_BackingBean.saveData()}"
+                <p:commandButton id="deactivateUser" value="#{msg['DeactivateUser']}" action="#{deactivateUserBackingBean.saveData()}"
                                  ajax="true" update="deactivateUserGrowl"
                                  styleClass="aButton"/>
             </h:form>

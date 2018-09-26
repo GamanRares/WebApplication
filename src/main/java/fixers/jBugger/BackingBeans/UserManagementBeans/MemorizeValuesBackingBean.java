@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @Named
 @ViewScoped
-public class MemorizeValues_BackingBean implements Serializable {
+public class MemorizeValuesBackingBean implements Serializable {
 
     private String oldFirstName;
     private String oldLastName;

@@ -1,6 +1,6 @@
 package fixers.jBugger.BackingBeans.BugExportPdfBeans;
 
-import fixers.jBugger.BackingBeans.BugManagementBeans.ViewBugs_BackingBean;
+import fixers.jBugger.BackingBeans.BugManagementBeans.ViewBugsBackingBean;
 import fixers.jBugger.Loggers.GrowlMessage;
 import fixers.jBugger.BusinessLogic.BugPdfEJB;
 import fixers.jBugger.BusinessLogic.UserEJB;
@@ -19,12 +19,12 @@ import java.io.Serializable;
 @Named
 @Data
 @ToString(exclude = "bugTableBackingBean")
-public class PdfCreation_BackingBean implements Serializable {
+public class PdfCreationBackingBean implements Serializable {
 
     private StreamedContent file;
     private boolean hasSelectedBug = false;
 
-    public PdfCreation_BackingBean() {
+    public PdfCreationBackingBean() {
     }
 
     @Inject
@@ -34,7 +34,7 @@ public class PdfCreation_BackingBean implements Serializable {
     private UserEJB userEJB;
 
     @Inject
-    ViewBugs_BackingBean viewBugsBackingBean;
+    ViewBugsBackingBean viewBugsBackingBean;
 
     public DefaultStreamedContent getFile() {
         //TODO FIX filtration, pagination, sorting for the PDF/VIEW of BUG TABLES!!!!

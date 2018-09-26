@@ -1,6 +1,6 @@
 package fixers.jBugger.BackingBeans.BugManagementBeans;
 
-import fixers.jBugger.BackingBeans.BugExportPdfBeans.PdfCreation_BackingBean;
+import fixers.jBugger.BackingBeans.BugExportPdfBeans.PdfCreationBackingBean;
 import fixers.jBugger.BusinessLogic.BugEJB;
 import fixers.jBugger.DatabaseEntitites.Bug;
 import lombok.Data;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Named
 @RequestScoped
 @ToString(exclude = "pdfCreationBackingBean")
-public class ViewBugs_BackingBean extends LazyDataModel<Bug> {
+public class ViewBugsBackingBean extends LazyDataModel<Bug> {
     private Bug selectedBug = null;
     private String selectedBugId = "none";
     private List<Bug> bugsList = new ArrayList<>();
@@ -37,9 +37,9 @@ public class ViewBugs_BackingBean extends LazyDataModel<Bug> {
     private BugEJB bugEJB;
 
     @Inject
-    private PdfCreation_BackingBean pdfCreationBackingBean;
+    private PdfCreationBackingBean pdfCreationBackingBean;
 
-    public ViewBugs_BackingBean() {
+    public ViewBugsBackingBean() {
     }
 
     @PostConstruct
@@ -92,7 +92,7 @@ public class ViewBugs_BackingBean extends LazyDataModel<Bug> {
 
         int dataSize = filteredList.size();
         if (sortField != null) {
-            Collections.sort(filteredList, new ViewBugs_BackingBean.BugSorter(sortField, sortOrder));
+            Collections.sort(filteredList, new ViewBugsBackingBean.BugSorter(sortField, sortOrder));
         }
         this.setRowCount(dataSize);
 

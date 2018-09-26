@@ -1,6 +1,6 @@
 package fixers.jBugger.BackingBeans.BugManagementBeans;
 
-import fixers.jBugger.BackingBeans.MainPagesBeans.Login_BackingBean;
+import fixers.jBugger.BackingBeans.MainPagesBeans.LoginBackingBean;
 import fixers.jBugger.DatabaseEnums.BugSeverityEnum;
 import fixers.jBugger.DatabaseEnums.NotificationTypeEnum;
 import fixers.jBugger.Loggers.GrowlMessage;
@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 @Data
 @Named
 @SessionScoped
-public class AddBug_BackingBean implements Serializable {
+public class AddBugBackingBean implements Serializable {
     private String title;
     private String description;
     private Date targetDate;
@@ -44,7 +44,7 @@ public class AddBug_BackingBean implements Serializable {
     private byte[] attachment;
 
     @Inject
-    private Login_BackingBean loginBackingBean;
+    private LoginBackingBean loginBackingBean;
 
 
     @Inject
@@ -57,9 +57,9 @@ public class AddBug_BackingBean implements Serializable {
     private NotificationEJB notificationEJB;
 
     @Inject
-    private ViewBugs_BackingBean viewBugsBackingBean;
+    private ViewBugsBackingBean viewBugsBackingBean;
 
-    private static final Logger LOGGER = Logger.getLogger(AddBug_BackingBean.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AddBugBackingBean.class.getName());
 
     public void clickCalendar() {
         PrimeFaces.current().ajax().update("form:display");

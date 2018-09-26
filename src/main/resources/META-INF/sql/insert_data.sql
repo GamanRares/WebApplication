@@ -31,8 +31,10 @@ INSERT INTO user_entity (USERNAME, EMAIL, FIRST_NAME, LAST_NAME, MOBILE_NUMBER, 
 INSERT INTO user_entity (USERNAME, EMAIL, FIRST_NAME, LAST_NAME, MOBILE_NUMBER, PASSWORD, IS_ACTIVE) VALUES ('tester', 'admin@msggroup.com', 'tester', 'tester', '+40123456789', '81dc9bdb52d04dc20036dbd8313ed055', TRUE);
 INSERT INTO user_entity (USERNAME, EMAIL, FIRST_NAME, LAST_NAME, MOBILE_NUMBER, PASSWORD, IS_ACTIVE) VALUES ('testManager', 'admin@msggroup.com', 'testManager', 'testManager', '+40123456789', '81dc9bdb52d04dc20036dbd8313ed055', TRUE);
 INSERT INTO user_entity (USERNAME, EMAIL, FIRST_NAME, LAST_NAME, MOBILE_NUMBER, PASSWORD, IS_ACTIVE) VALUES ('projectManager', 'admin@msggroup.com', 'projectManager', 'projectManager', '+40123456789', '81dc9bdb52d04dc20036dbd8313ed055', TRUE);
+INSERT INTO user_entity (USERNAME, EMAIL, FIRST_NAME, LAST_NAME, MOBILE_NUMBER, PASSWORD, IS_ACTIVE) VALUES ('aaa', 'admin@msggroup.com', 'administrator', 'administrator', '+40123456789', '47bce5c74f589f4867dbd57e9ca9f808', TRUE);
 
 INSERT INTO user_role (USERNAME, ROLE_ID) VALUES ('administrator','ADMINISTRATOR');
+INSERT INTO user_role (USERNAME, ROLE_ID) VALUES ('aaa','ADMINISTRATOR');
 INSERT INTO user_role (USERNAME, ROLE_ID) VALUES ('developer','DEVELOPER');
 INSERT INTO user_role (USERNAME, ROLE_ID) VALUES ('tester','TESTER');
 INSERT INTO user_role (USERNAME, ROLE_ID) VALUES ('testManager','TEST_MANAGER');

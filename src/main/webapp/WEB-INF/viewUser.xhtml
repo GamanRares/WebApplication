@@ -17,13 +17,13 @@
             <p:growl id="growl" showDetail="true" sticky="false"/>
             <div class="centered">
                 <h:form id="form1">
-                    <p:dataTable var="user" value="#{table_BackingBean}"
-                                 selection="#{table_BackingBean.selectedUser}" selectionMode="single"
+                    <p:dataTable var="user" value="#{tableBackingBean}"
+                                 selection="#{tableBackingBean.selectedUser}" selectionMode="single"
                                  id="userTable"
                                  rowKey="#{user.username}" lazy="true" paginator="true" rows="10"
                                  rowsPerPageTemplate="5,10,15"
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
-                        <p:ajax event="rowSelect" listener="#{table_BackingBean.rowSelected}"
+                        <p:ajax event="rowSelect" listener="#{tableBackingBean.rowSelected}"
                                 update=":form1:outputLabel"/>
                         <p:column id="c1" headerText="Username" sortBy="#{user.username}" filterBy="#{user.username}"
                         >
@@ -52,7 +52,7 @@
                             <h:outputText value="#{user.right}"/>
                         </p:column>
                     </p:dataTable>
-                    <p:outputLabel id="outputLabel" value="#{table_BackingBean.outputMessage}"/>
+                    <p:outputLabel id="outputLabel" value="#{tableBackingBean.outputMessage}"/>
                     <br/>
                     <br/>
                     <br/>

@@ -23,7 +23,7 @@ import java.util.List;
 @Data
 @Named
 @ViewScoped
-public class EditBug_BackingBean implements Serializable {
+public class EditBugBackingBean implements Serializable {
     private String usernameAssignedTo;
     private List<Bug> bugsAssignedToUser = new ArrayList<>();
     private List<BugSeverityEnum> bugSeverities = new ArrayList<>();

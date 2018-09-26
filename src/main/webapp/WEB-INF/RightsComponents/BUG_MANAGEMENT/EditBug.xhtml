@@ -10,25 +10,25 @@
         <p:growl id="editBugGrowl" showDetail="true" sticky="false"/>
         <h:form id="searchBug">
             <h:outputText value="#{msg['EnterAssignedUsernameToFindTheBug']}" styleClass="myFont"/>
-            <h:inputText id="assignedToUser" value="#{editBug_BackingBean.usernameAssignedTo}" required="true"
+            <h:inputText id="assignedToUser" value="#{editBugBackingBean.usernameAssignedTo}" required="true"
                          label="#{msg['AssignedTo']}"/>
             <br/>
-            <p:commandButton value="#{msg['Search']}" action="#{editBug_BackingBean.searchUsername}"
+            <p:commandButton value="#{msg['Search']}" action="#{editBugBackingBean.searchUsername}"
                              ajax="true"
                              update=":searchBug:outputLabel listBug"
                              styleClass="aButton"/>
             <br/>
-            <p:outputLabel id="outputLabel" value="#{editBug_BackingBean.outputMessage}" styleClass="myFont"/>
+            <p:outputLabel id="outputLabel" value="#{editBugBackingBean.outputMessage}" styleClass="myFont"/>
         </h:form>
         <br/>
         <h:form id="listBug">
-            <p:dataTable id="editBug" var="bug" value="#{editBug_BackingBean.bugsAssignedToUser}"
+            <p:dataTable id="editBug" var="bug" value="#{editBugBackingBean.bugsAssignedToUser}"
                          selectionMode="single"
                          rowKey="#{bug.id}"
                          editable="true" editMode="cell"
                          style="margin-bottom:20px" emptyMessage="#{msg['NoRecordsFound']}">
 
-                <p:ajax event="cellEdit" listener="#{editBug_BackingBean.onCellEdit}" update="editBug editBugGrowl"/>
+                <p:ajax event="cellEdit" listener="#{editBugBackingBean.onCellEdit}" update="editBug editBugGrowl"/>
 
                 <p:column headerText="Id">
                     <p:cellEditor>
@@ -67,7 +67,7 @@
                         <f:facet name="output"><h:outputText value="#{bug.severity}"/></f:facet>
                         <f:facet name="input">
                             <h:selectOneMenu value="#{bug.severity}" style="width:100%">
-                                <f:selectItems value="#{editBug_BackingBean.bugSeverities}"/>
+                                <f:selectItems value="#{editBugBackingBean.bugSeverities}"/>
                             </h:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>

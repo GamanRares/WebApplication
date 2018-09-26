@@ -19,7 +19,7 @@ import java.util.*;
 @SessionScoped
 @Named
 @Data
-public class RolesRights_BackingBean implements Serializable {
+public class RolesRightsBackingBean implements Serializable {
 
     private Right bug_close;
     private Right bug_export_pdf;

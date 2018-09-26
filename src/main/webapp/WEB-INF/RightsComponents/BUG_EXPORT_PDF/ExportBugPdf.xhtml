@@ -7,14 +7,14 @@
     <f:view>
         <h:form id="bugsListForm">
             <div class="centered">
-                <p:dataTable var="bug" id="bugsTable" value="#{viewBugs_BackingBean}"
-                             selectionMode="single" selection="#{viewBugs_BackingBean.selectedBug}" rowKey="#{bug.id}"
+                <p:dataTable var="bug" id="bugsTable" value="#{viewBugsBackingBean}"
+                             selectionMode="single" selection="#{viewBugsBackingBean.selectedBug}" rowKey="#{bug.id}"
                              emptyMessage="#{msg['NoRecordsFound']}"
                              lazy="true" paginator="true" rows="5"
                              editable="true" editMode="cell" cellEditMode="lazy"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
 
-                    <p:ajax event="rowSelect" listener="#{viewBugs_BackingBean.rowSelected}"
+                    <p:ajax event="rowSelect" listener="#{viewBugsBackingBean.rowSelected}"
                             update=":bugsListForm:outputLabel2"/>
 
                     <p:column id="c1" headerText="#{msg['Bug']}" sortBy="#{bug.id}" filterBy="#{bug.id}">
@@ -86,7 +86,7 @@
 
                 </p:dataTable>
                 <p:outputLabel id="outputLabel1" value="#{msg['SelectedBugID']}" style="color: white"/>
-                <p:outputLabel id="outputLabel2" value="#{viewBugs_BackingBean.selectedBugId}" style="color: white"/>
+                <p:outputLabel id="outputLabel2" value="#{viewBugsBackingBean.selectedBugId}" style="color: white"/>
                 <br/>
                 <br/>
                 <br/>
@@ -94,7 +94,7 @@
 
             <p:commandButton value="#{msg['ExportPDF']}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
                              icon="ui-icon-arrowthick-1-s">
-                <p:fileDownload value="#{pdfCreation_BackingBean.file}"/>
+                <p:fileDownload value="#{pdfCreationBackingBean.file}"/>
             </p:commandButton>
         </h:form>
     </f:view>

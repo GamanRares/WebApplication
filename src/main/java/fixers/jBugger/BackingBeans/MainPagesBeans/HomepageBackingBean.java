@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @Named
 @SessionScoped
-public class Homepage_BackingBean implements Serializable {
+public class HomepageBackingBean implements Serializable {
     private String page;
 
     public String goTo(String page) {

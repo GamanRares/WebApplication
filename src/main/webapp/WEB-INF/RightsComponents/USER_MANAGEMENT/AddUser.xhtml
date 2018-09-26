@@ -16,46 +16,46 @@
                 <h3 class="title"><h:outputText value="#{msg['AddUserTitle']}"/></h3>
 
                 <h:outputText styleClass="myFont" value="#{msg['FirstName']}" color="white" style="display:block ;"/>
-                <p:inputText id="userFirstName" value="#{addUser_BackingBean.userFirstName}" required="true"
+                <p:inputText id="userFirstName" value="#{addUserBackingBean.userFirstName}" required="true"
                              label="First name"/>
                 <br/>
                 <br/>
                 <h:outputText styleClass="myFont" value="#{msg['LastName']}" style="display:block;" color="white"/>
-                <p:inputText id="userLastName" value="#{addUser_BackingBean.userLastName}" required="true"
+                <p:inputText id="userLastName" value="#{addUserBackingBean.userLastName}" required="true"
                              label="Last name"/>
                 <br/>
                 <br/>
                 <h:outputText styleClass="myFont" value="#{msg['Password']}" style="display:block;" color="white"/>
-                <p:password id="userPassword" value="#{addUser_BackingBean.userPassword}" required="true"
+                <p:password id="userPassword" value="#{addUserBackingBean.userPassword}" required="true"
                             label="#{msg['Password']}"/>
                 <br/>
                 <br/>
                 <h:outputText styleClass="myFont" value="#{msg['Email']}" style="display:block;" color="white"/>
-                <p:inputText id="userEmail" value="#{addUser_BackingBean.userEmail}" required="true"
+                <p:inputText id="userEmail" value="#{addUserBackingBean.userEmail}" required="true"
                              label="#{msg['Email']}"/>
                 <br/>
                 <br/>
                 <h:outputText styleClass="myFont" value="#{msg['MobileNumber']}" style="display:block;" color="white"/>
-                <p:selectOneMenu id="userMobileNumber" value="#{addUser_BackingBean.userMobileNumber}" effect="fold"
+                <p:selectOneMenu id="userMobileNumber" value="#{addUserBackingBean.userMobileNumber}" effect="fold"
                                  editable="true" required="true" label="#{msg['MobileNumber']}">
                     <f:selectItem itemLabel="0040" itemValue="0040"/>
                     <f:selectItem itemLabel="+40" itemValue="+40"/>
                     <f:selectItem itemLabel="0049" itemValue="0049"/>
                     <f:selectItem itemLabel="+49" itemValue="+49"/>
-                    <p:ajax event="change" listener="#{addUser_BackingBean.handleChange}" ajaxSingle="true"
+                    <p:ajax event="change" listener="#{addUserBackingBean.handleChange}" ajaxSingle="true"
                             execute="@this"/>
                 </p:selectOneMenu>
                 <br/>
                 <br/>
                 <h:outputLabel for="multiple" styleClass="myFont" value="#{msg['Roles']} " color="white"/>
-                <p:selectCheckboxMenu id="multiple" value="#{addUser_BackingBean.userRoles}"
+                <p:selectCheckboxMenu id="multiple" value="#{addUserBackingBean.userRoles}"
                                       multiple="true"
                                       filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-                    <f:selectItems value="#{rolesCheckbox_BackingBean.roles}"/>
+                    <f:selectItems value="#{rolesCheckboxBackingBean.roles}"/>
                 </p:selectCheckboxMenu>
                 <br/>
                 <br/>
-                <p:commandButton id="addUser" value="#{msg['AddUser']}" action="#{addUser_BackingBean.saveUser()}"
+                <p:commandButton id="addUser" value="#{msg['AddUser']}" action="#{addUserBackingBean.saveUser()}"
                                  ajax="true" update="addUserGrowl"
                                  styleClass="aButton"/>
                 <br/>

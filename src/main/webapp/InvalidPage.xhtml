@@ -7,7 +7,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:botDetect="http://java.sun.com/jsf/composite">
-<f:view locale="#{internationalization_BackingBean.locale}">
+<f:view locale="#{internationalizationBackingBean.locale}">
     <h:head>
 
         <img src="resources/LogoMSG1.png" alt="LogoMSGg" width="350" height="150"/>
@@ -21,10 +21,10 @@
         <div class="centered">
             <h:form id="form">
                 <h:commandButton image="resources/RomaniaFlag.png"
-                                 action="#{internationalization_BackingBean.setLanguage('ro')}" immediate="true"
+                                 action="#{internationalizationBackingBean.setLanguage('ro')}" immediate="true"
                                  onchange="submit()"/>
                 <h:commandButton image="resources/USAFlag.png"
-                                 action="#{internationalization_BackingBean.setLanguage('en')}" immediate="true"
+                                 action="#{internationalizationBackingBean.setLanguage('en')}" immediate="true"
                                  onchange="submit()"/>
                 <br/>
                 <br/>
@@ -33,7 +33,7 @@
                 <br/>
                 <br/>
                 <h:panelGroup>
-                    <ui:include src="#{invalidPage_BackingBean.page}"/>
+                    <ui:include src="#{invalidPageBackingBean.page}"/>
                 </h:panelGroup>
             </h:form>
         </div>

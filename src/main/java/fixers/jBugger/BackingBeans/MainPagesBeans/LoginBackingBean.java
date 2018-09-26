@@ -1,6 +1,6 @@
 package fixers.jBugger.BackingBeans.MainPagesBeans;
 
-import fixers.jBugger.BackingBeans.RolesRightsBeans.RolesRights_BackingBean;
+import fixers.jBugger.BackingBeans.RolesRightsBeans.RolesRightsBackingBean;
 import fixers.jBugger.DatabaseEnums.NotificationTypeEnum;
 import fixers.jBugger.DatabaseEnums.RoleTypeEnum;
 import fixers.jBugger.Loggers.GrowlMessage;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @SessionScoped
 @Named
 @Data
-public class Login_BackingBean implements Serializable {
+public class LoginBackingBean implements Serializable {
     private String username;
     private String password;
 
@@ -39,7 +39,7 @@ public class Login_BackingBean implements Serializable {
     private List<Right> allUserRights = new ArrayList<>();
 
     @Inject
-    private RolesRights_BackingBean rolesBackingBean;
+    private RolesRightsBackingBean rolesBackingBean;
 
     @Inject
     private UserEJB userEJB;
@@ -48,12 +48,12 @@ public class Login_BackingBean implements Serializable {
     private NotificationEJB notificationEJB;
 
     @Inject
-    private Homepage_BackingBean homepageBackingBean;
+    private HomepageBackingBean homepageBackingBean;
 
     @Inject
-    private InvalidPage_BackingBean invalidPageBackingBean;
+    private InvalidPageBackingBean invalidPageBackingBean;
 
-    public Login_BackingBean() {
+    public LoginBackingBean() {
     }
 
     @PostConstruct
@@ -64,9 +64,9 @@ public class Login_BackingBean implements Serializable {
     public void goTo() {
         String userAgent = FacesContext.getCurrentInstance().getExternalContext().getRequestHeaderMap().get("User-Agent");
 
-        if (!userAgent.matches(".*(Chrome/([0-9]{3,}|3[6-9]|[4-9][0-9])|Firefox/([0-9]{3,}|3[1-9]|[4-9][0-9])).*")) {
-            this.redirect();
-        }
+//        if (!userAgent.matches(".*(Chrome/([0-9]{3,}|3[6-9]|[4-9][0-9])|Firefox/([0-9]{3,}|3[1-9]|[4-9][0-9])).*")) {
+//            this.redirect();
+//        }
     }
 
     public void redirect() {

@@ -4,7 +4,7 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
-import fixers.jBugger.BackingBeans.BugManagementBeans.ViewBugs_BackingBean;
+import fixers.jBugger.BackingBeans.BugManagementBeans.ViewBugsBackingBean;
 import fixers.jBugger.DatabaseEntitites.Attachment;
 import fixers.jBugger.DatabaseEntitites.Bug;
 
@@ -20,7 +20,7 @@ public class BugPdfEJB implements Serializable {
     private UserEJB userEJB;
 
     @Inject
-    private ViewBugs_BackingBean viewBugsBackingBean;
+    private ViewBugsBackingBean viewBugsBackingBean;
 
     public byte[] createBugPdf() throws Exception {
         Bug selectedBug = viewBugsBackingBean.getSelectedBug();
@@ -78,14 +78,14 @@ public class BugPdfEJB implements Serializable {
                 PdfReader reader = new PdfReader(chosenBugValue);
                 int pages = reader.getNumberOfPages();
 
-                String attachmentText = "";
+                StringBuilder attachmentText = new StringBuilder();
                 for (int ctr = 1; ctr < pages + 1; ctr++)
-                    attachmentText += PdfTextExtractor.getTextFromPage(reader, ctr);
+                    attachmentText.append(PdfTextExtractor.getTextFromPage(reader, ctr));
 
                 reader.close();
 
                 content.add("\nBug attachment content:\n\n");
-                content.add(attachmentText);
+                content.add(attachmentText.toString());
 
                 document.add(content);
                 document.close();

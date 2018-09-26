@@ -1,6 +1,6 @@
 package fixers.jBugger.BackingBeans.NotificationsBeans;
 
-import fixers.jBugger.BackingBeans.MainPagesBeans.Login_BackingBean;
+import fixers.jBugger.BackingBeans.MainPagesBeans.LoginBackingBean;
 import fixers.jBugger.BusinessLogic.NotificationEJB;
 import fixers.jBugger.DatabaseEntitites.Notification;
 import lombok.Data;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Data
 @Named
 @RequestScoped
-public class ViewNotifications_BackingBean extends LazyDataModel<Notification> {
+public class ViewNotificationsBackingBean extends LazyDataModel<Notification> {
 
     private Notification selectedNotification;
     private String outputMessage;
@@ -30,7 +30,7 @@ public class ViewNotifications_BackingBean extends LazyDataModel<Notification> {
     private NotificationEJB notificationEJB;
 
     @Inject
-    private Login_BackingBean loginBackingBean;
+    private LoginBackingBean loginBackingBean;
 
     @PostConstruct
     public void init() {
@@ -93,7 +93,7 @@ public class ViewNotifications_BackingBean extends LazyDataModel<Notification> {
 
         int dataSize = filteredList.size();
         if (sortField != null) {
-            Collections.sort(filteredList, new ViewNotifications_BackingBean.NotificationSorter(sortField, sortOrder));
+            Collections.sort(filteredList, new ViewNotificationsBackingBean.NotificationSorter(sortField, sortOrder));
         }
         this.setRowCount(dataSize);
 

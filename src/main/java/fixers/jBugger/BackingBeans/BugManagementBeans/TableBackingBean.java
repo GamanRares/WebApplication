@@ -1,6 +1,6 @@
 package fixers.jBugger.BackingBeans.BugManagementBeans;
 
-import fixers.jBugger.BackingBeans.UserManagementBeans.AddUser_BackingBean;
+import fixers.jBugger.BackingBeans.UserManagementBeans.AddUserBackingBean;
 import fixers.jBugger.DatabaseEntitites.User;
 import lombok.Data;
 import org.primefaces.event.SelectEvent;
@@ -17,12 +17,12 @@ import java.util.stream.Collectors;
 @Data
 @Named
 @ViewScoped
-public class Table_BackingBean extends LazyDataModel<User> {
+public class TableBackingBean extends LazyDataModel<User> {
     private User selectedUser;
     private String outputMessage;
 
     @Inject
-    private AddUser_BackingBean addUserBackingBean;
+    private AddUserBackingBean addUserBackingBean;
 
     public void rowSelected(SelectEvent event) {
         outputMessage = selectedUser.getUsername();
@@ -71,7 +71,7 @@ public class Table_BackingBean extends LazyDataModel<User> {
 
         int dataSize = filteredList.size();
         if (sortField != null) {
-            Collections.sort(filteredList, new Table_BackingBean.UserSorter(sortField, sortOrder));
+            Collections.sort(filteredList, new TableBackingBean.UserSorter(sortField, sortOrder));
         }
         this.setRowCount(dataSize);
 

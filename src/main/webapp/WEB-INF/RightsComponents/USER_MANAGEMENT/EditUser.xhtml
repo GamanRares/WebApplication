@@ -17,66 +17,66 @@
                 <h3 class="title"><h:outputText value="#{msg['EditUserTitle']}"/></h3>
 
                 <p:outputLabel for="selectUsername" styleClass="myFont" value="#{msg['SelectUsername']}" color="white"/>
-                <p:selectOneMenu id="selectUsername" value="#{editUser_BackingBean.usernameToUpdate}" filter="true"
+                <p:selectOneMenu id="selectUsername" value="#{editUserBackingBean.usernameToUpdate}" filter="true"
                                  filterMatchMode="contains">
                     <f:selectItem itemLabel="#{msg['SelectAUser']}" itemValue=""/>
-                    <f:selectItems value="#{editUser_BackingBean.users}"/>
-                    <p:ajax event="change" listener="#{editUser_BackingBean.handleChange}" ajaxSingle="true"
+                    <f:selectItems value="#{editUserBackingBean.users}"/>
+                    <p:ajax event="change" listener="#{editUserBackingBean.handleChange}" ajaxSingle="true"
                             execute="@this" update="@form editUserGrowl"/>
                 </p:selectOneMenu>
                 <br/>
                 <br/>
                 <h:outputText styleClass="myFont" value="#{msg['FirstName']}" color="white" style="display:block ;"/>
-                <p:inputText id="userFirstName" value="#{editUser_BackingBean.userFirstName}" required="true"
+                <p:inputText id="userFirstName" value="#{editUserBackingBean.userFirstName}" required="true"
                              label="#{msg['FirstName']}"/>
                 <br/>
                 <br/>
                 <h:outputText styleClass="myFont" value="#{msg['LastName']}" style="display:block;" color="white"/>
-                <p:inputText id="userLastName" value="#{editUser_BackingBean.userLastName}" required="true"
+                <p:inputText id="userLastName" value="#{editUserBackingBean.userLastName}" required="true"
                              label="#{msg['LastName']}"/>
                 <br/>
                 <br/>
                 <h:outputText styleClass="myFont" value="#{msg['Password']}" style="display:block;" color="white"/>
-                <p:password id="userPassword" value="#{editUser_BackingBean.userPassword}"
+                <p:password id="userPassword" value="#{editUserBackingBean.userPassword}"
                             label="#{msg['Password']}"/>
                 <p:watermark for="userPassword" value="#{msg['LeftBlank']}" id="watermark"/>
                 <br/>
                 <br/>
                 <h:outputText styleClass="myFont" value="#{msg['Email']}" style="display:block;" color="white"/>
-                <p:inputText id="userEmail" value="#{editUser_BackingBean.userEmail}" required="true"
+                <p:inputText id="userEmail" value="#{editUserBackingBean.userEmail}" required="true"
                              label="#{msg['Email']}"/>
                 <br/>
                 <br/>
                 <h:outputText styleClass="myFont" value="#{msg['MobileNumber']}" style="display:block;" color="white"/>
-                <p:selectOneMenu id="userMobileNumber" value="#{editUser_BackingBean.userMobileNumber}" effect="fold"
+                <p:selectOneMenu id="userMobileNumber" value="#{editUserBackingBean.userMobileNumber}" effect="fold"
                                  editable="true" required="true" label="#{msg['MobileNumber']}">
                     <f:selectItem itemLabel="0040" itemValue="0040"/>
                     <f:selectItem itemLabel="+40" itemValue="+40"/>
                     <f:selectItem itemLabel="0049" itemValue="0049"/>
                     <f:selectItem itemLabel="+49" itemValue="+49"/>
-                    <p:ajax event="change" listener="#{editUser_BackingBean.handleMobileNumberChange}" ajaxSingle="true"
+                    <p:ajax event="change" listener="#{editUserBackingBean.handleMobileNumberChange}" ajaxSingle="true"
                             execute="@this"/>
                 </p:selectOneMenu>
                 <br/>
                 <br/>
                 <h:outputLabel for="multipleChoice" styleClass="myFont" value="#{msg['Roles']}" color="white"/>
-                <p:selectCheckboxMenu id="multipleChoice" value="#{editUser_BackingBean.userRoles}"
+                <p:selectCheckboxMenu id="multipleChoice" value="#{editUserBackingBean.userRoles}"
                                       multiple="true"
                                       filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-                    <f:selectItems value="#{rolesCheckbox_BackingBean.roles}"/>
+                    <f:selectItems value="#{rolesCheckboxBackingBean.roles}"/>
                 </p:selectCheckboxMenu>
                 <br/>
                 <br/>
                 <h:outputLabel for="isActive" styleClass="myFont" value="#{msg['Active']} " color="white"
-                               rendered="#{!editUser_BackingBean.userIsActive}"/>
-                <p:selectOneMenu id="isActive" value="#{editUser_BackingBean.userIsActive}"
-                                 rendered="#{!editUser_BackingBean.userIsActive}">
+                               rendered="#{!editUserBackingBean.userIsActive}"/>
+                <p:selectOneMenu id="isActive" value="#{editUserBackingBean.userIsActive}"
+                                 rendered="#{!editUserBackingBean.userIsActive}">
                     <f:selectItem itemLabel="#{msg['True']}" itemValue="true"/>
                     <f:selectItem itemLabel="#{msg['False']}" itemValue="false"/>
                 </p:selectOneMenu>
                 <br/>
                 <br/>
-                <p:commandButton id="editUser" value="#{msg['EditUser']}" action="#{editUser_BackingBean.saveData()}"
+                <p:commandButton id="editUser" value="#{msg['EditUser']}" action="#{editUserBackingBean.saveData()}"
                                  ajax="true" update="editUserGrowl"
                                  styleClass="aButton"/>
             </h:form>

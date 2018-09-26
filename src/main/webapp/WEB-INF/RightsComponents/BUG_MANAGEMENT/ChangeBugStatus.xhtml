@@ -8,10 +8,10 @@
         <p:growl id="editStatusBugGrowl" showDetail="true" sticky="false"/>
         <h:form id="searchBugAfterUser">
             <h:outputText value="#{msg['EnterAssignedUsernameToFindTheBug']}" styleClass="myFont"/>
-            <h:inputText id="assignedToUser" value="#{updateBugStatus_BackingBean.usernameAssignedTo}" required="true"
+            <h:inputText id="assignedToUser" value="#{updateBugStatusBackingBean.usernameAssignedTo}" required="true"
                          label="#{msg['AssignedTo']}"/>
             <br/>
-            <p:commandButton value="#{msg['Search']}" action="#{updateBugStatus_BackingBean.searchUsername}"
+            <p:commandButton value="#{msg['Search']}" action="#{updateBugStatusBackingBean.searchUsername}"
                              ajax="true"
                              update="listUserBugs"
                              styleClass="aButton"/>
@@ -19,13 +19,13 @@
         <br/>
 
         <h:form id="listUserBugs">
-            <p:dataTable id="updateBug" var="bug" value="#{updateBugStatus_BackingBean.bugsAssignedToUser}"
+            <p:dataTable id="updateBug" var="bug" value="#{updateBugStatusBackingBean.bugsAssignedToUser}"
                          selectionMode="single"
                          rowKey="#{bug.id}"
                          editable="true" editMode="cell"
                          style="margin-bottom:20px" emptyMessage="#{msg['NoRecordsFound']}">
 
-                <p:ajax event="cellEdit" listener="#{updateBugStatus_BackingBean.onCellEdit}" update="editStatusBugGrowl"/>
+                <p:ajax event="cellEdit" listener="#{updateBugStatusBackingBean.onCellEdit}" update="editStatusBugGrowl"/>
 
                 <p:column headerText="#{msg['Title']}">
                     <h:outputText value="#{bug.title}"/>
@@ -35,12 +35,12 @@
                         <f:facet name="output"><h:outputText value="#{bug.status}"/>
                         </f:facet>
                         <f:facet name="input">
-                            <h:selectOneMenu value="#{updateBugStatus_BackingBean.myStatus}" style="width:100%">
-                                <f:selectItem itemLabel="new" itemValue="new" itemDisabled="#{updateBugStatus_BackingBean.acceptsStatusNew(bug.status)}"/>
-                                <f:selectItem itemLabel="in_progress" itemValue="in_progress" itemDisabled="#{updateBugStatus_BackingBean.acceptsStatusInProgress(bug.status)}"/>
-                                <f:selectItem itemLabel="info_needed" itemValue="info_needed" itemDisabled="#{updateBugStatus_BackingBean.acceptsStatusInfoNeeded(bug.status)}"/>
-                                <f:selectItem itemLabel="fixed" itemValue="fixed" itemDisabled="#{updateBugStatus_BackingBean.acceptsStatusFixed(bug.status)}"/>
-                                <f:selectItem itemLabel="rejected" itemValue="rejected" itemDisabled="#{updateBugStatus_BackingBean.acceptsStatusRejected(bug.status)}"/>
+                            <h:selectOneMenu value="#{updateBugStatusBackingBean.myStatus}" style="width:100%">
+                                <f:selectItem itemLabel="new" itemValue="new" itemDisabled="#{updateBugStatusBackingBean.acceptsStatusNew(bug.status)}"/>
+                                <f:selectItem itemLabel="in_progress" itemValue="in_progress" itemDisabled="#{updateBugStatusBackingBean.acceptsStatusInProgress(bug.status)}"/>
+                                <f:selectItem itemLabel="info_needed" itemValue="info_needed" itemDisabled="#{updateBugStatusBackingBean.acceptsStatusInfoNeeded(bug.status)}"/>
+                                <f:selectItem itemLabel="fixed" itemValue="fixed" itemDisabled="#{updateBugStatusBackingBean.acceptsStatusFixed(bug.status)}"/>
+                                <f:selectItem itemLabel="rejected" itemValue="rejected" itemDisabled="#{updateBugStatusBackingBean.acceptsStatusRejected(bug.status)}"/>
                             </h:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>

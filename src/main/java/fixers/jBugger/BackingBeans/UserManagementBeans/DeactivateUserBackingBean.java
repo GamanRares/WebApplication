@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Data
 @Named
 @RequestScoped
-public class DeactivateUser_BackingBean implements Serializable {
+public class DeactivateUserBackingBean implements Serializable {
 
     @Inject
     private UserEJB userEJB;

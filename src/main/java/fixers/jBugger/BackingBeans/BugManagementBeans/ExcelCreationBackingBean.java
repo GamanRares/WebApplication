@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Data
 @Named
 @SessionScoped
-public class ExcelCreation_BackingBean implements Serializable {
+public class ExcelCreationBackingBean implements Serializable {
 
     @Inject
     private BugExcelEJB bugExcelEJB;

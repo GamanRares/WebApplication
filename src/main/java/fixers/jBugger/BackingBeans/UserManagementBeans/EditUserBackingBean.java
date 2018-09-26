@@ -1,6 +1,6 @@
 package fixers.jBugger.BackingBeans.UserManagementBeans;
 
-import fixers.jBugger.BackingBeans.MainPagesBeans.Login_BackingBean;
+import fixers.jBugger.BackingBeans.MainPagesBeans.LoginBackingBean;
 import fixers.jBugger.DatabaseEnums.NotificationTypeEnum;
 import fixers.jBugger.Loggers.GrowlMessage;
 import fixers.jBugger.BusinessLogic.BugEJB;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Data
 @Named
 @RequestScoped
-public class EditUser_BackingBean implements Serializable {
+public class EditUserBackingBean implements Serializable {
 
     @Inject
     private UserEJB userEJB;
@@ -36,7 +36,7 @@ public class EditUser_BackingBean implements Serializable {
     private BugEJB bugEJB;
 
     @Inject
-    private Login_BackingBean loginBackingBean;
+    private LoginBackingBean loginBackingBean;
 
     @Inject
     private NotificationEJB notificationEJB;
@@ -45,7 +45,7 @@ public class EditUser_BackingBean implements Serializable {
     private RoleEJB roleEJB;
 
     @Inject
-    private MemorizeValues_BackingBean memorizeValuesBackingBean;
+    private MemorizeValuesBackingBean memorizeValuesBackingBean;
 
     private String usernameToUpdate;
 

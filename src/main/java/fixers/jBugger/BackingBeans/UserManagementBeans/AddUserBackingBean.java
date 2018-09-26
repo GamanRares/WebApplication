@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Data
 @Named
 @RequestScoped
-public class AddUser_BackingBean implements Serializable {
+public class AddUserBackingBean implements Serializable {
     private String userFirstName;
     private String userLastName;
     private String userMobileNumber;

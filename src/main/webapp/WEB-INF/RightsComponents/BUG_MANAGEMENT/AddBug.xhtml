@@ -14,17 +14,17 @@
         <div>
             <h5 class="title"><h:outputText value="#{msg['Title']}"/></h5>
             <h:outputText styleClass="myFont"/>
-            <h:inputText id="title" value="#{addBug_BackingBean.title}" required="true"/>
+            <h:inputText id="title" value="#{addBugBackingBean.title}" required="true"/>
             <br/>
             <h5 class="title"><h:outputText value="#{msg['Description']}"/></h5>
             <h:outputText styleClass="myFont"/>
-            <p:inputTextarea rows="6" cols="33" value="#{addBug_BackingBean.description}" required="true"/>
+            <p:inputTextarea rows="6" cols="33" value="#{addBugBackingBean.description}" required="true"/>
             <br/>
             <p:outputLabel for="button" value="#{msg['TargetDate']}" styleClass="myFont"/>
-            <p:calendar id="button" value="#{addBug_BackingBean.targetDate}" showOn="button"/>
+            <p:calendar id="button" value="#{addBugBackingBean.targetDate}" showOn="button"/>
             <br/>
             <h:outputText value="#{msg['Severity']}" styleClass="myFont"/>
-            <p:selectOneMenu id="console" value="#{addBug_BackingBean.selectOneSeverity}" style="width:125px"
+            <p:selectOneMenu id="console" value="#{addBugBackingBean.selectOneSeverity}" style="width:125px"
                              styleClass="myFont">
                 <f:selectItem itemLabel="#{msg['Low']}" itemValue="low"/>
                 <f:selectItem itemLabel="#{msg['Medium']}" itemValue="medium"/>
@@ -33,18 +33,18 @@
             </p:selectOneMenu>
             <br/>
             <h:outputText value="#{msg['AssignedTo']}" styleClass="myFont"/>
-            <h:inputText id="assigned" value="#{addBug_BackingBean.assignedToUsername}" required="true" label="assigned"/>
+            <h:inputText id="assigned" value="#{addBugBackingBean.assignedToUsername}" required="true" label="assigned"/>
             <br/>
 
             <h:outputText value="#{msg['Attachment']}" styleClass="myFont"/>
 
-            <p:fileUpload value="#{addBug_BackingBean.uploadedFile}" mode="simple" skinSimple="true"
+            <p:fileUpload value="#{addBugBackingBean.uploadedFile}" mode="simple" skinSimple="true"
                           label="#{msg['Choose']}" style="color: white"/>
-            <p:commandButton value="#{msg['Upload']}" ajax="false" actionListener="#{addBug_BackingBean.upload}"/>
+            <p:commandButton value="#{msg['Upload']}" ajax="false" actionListener="#{addBugBackingBean.upload}"/>
             <br/><br/>
 
-            <p:commandButton value="#{msg['Add']}" action="#{addBug_BackingBean.saveBug}"
-                             actionListener="#{addBug_BackingBean.clickCalendar}"
+            <p:commandButton value="#{msg['Add']}" action="#{addBugBackingBean.saveBug}"
+                             actionListener="#{addBugBackingBean.clickCalendar}"
                              ajax="false"/>
         </div>
     </h:form>

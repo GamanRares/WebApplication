@@ -8,7 +8,7 @@
         <h2 class="title"><h:outputText value="#{msg['ViewBugs']}"/></h2>
         <h:form id="bugsListForm">
             <div class="centered">
-                <p:dataTable var="bug" id="bugsTable" value="#{viewBugs_BackingBean}"
+                <p:dataTable var="bug" id="bugsTable" value="#{viewBugsBackingBean}"
                              rowKey="#{bug.id}"
                              emptyMessage="#{msg['NoRecordsFound']}"
                              lazy="true" paginator="true" rows="5"
@@ -95,7 +95,7 @@
 
             <p:commandButton value="#{msg['ExportTableAsExcel']}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" immediate="true"
                              icon="ui-icon-arrowthick-1-s">
-                <p:fileDownload value="#{excelCreation_BackingBean.file}"/>
+                <p:fileDownload value="#{excelCreationBackingBean.file}"/>
             </p:commandButton>
 
 

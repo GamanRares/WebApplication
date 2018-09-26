@@ -10,13 +10,13 @@
 
         <br/>
         <h:form id="viewNotifications">
-            <p:dataTable var="notification" value="#{viewNotifications_BackingBean}"
-                         selection="#{viewNotifications_BackingBean.selectedNotification}" selectionMode="single"
+            <p:dataTable var="notification" value="#{viewNotificationsBackingBean}"
+                         selection="#{viewNotificationsBackingBean.selectedNotification}" selectionMode="single"
                          id="notificationTable"
                          rowKey="#{notification.notification_id.toString()}" lazy="true" paginator="true" rows="10"
                          rowsPerPageTemplate="5,10,15"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
-                <p:ajax event="rowSelect" listener="#{viewNotifications_BackingBean.rowSelected}"
+                <p:ajax event="rowSelect" listener="#{viewNotificationsBackingBean.rowSelected}"
                         update=":viewNotifications:outputLabel"/>
                 <p:column id="c1" headerText="ID" sortBy="#{notification.notification_id}" filterBy="#{notification.notification_ide}">
                     <h:outputText value="#{notification.notification_id.toString()}"/>
@@ -40,7 +40,7 @@
             </p:dataTable>
             <br/>
             <br/>
-            <p:outputLabel id="outputLabel" value="#{viewNotifications_BackingBean.outputMessage}"/>
+            <p:outputLabel id="outputLabel" value="#{viewNotificationsBackingBean.outputMessage}"/>
 
         </h:form>
     </f:view>

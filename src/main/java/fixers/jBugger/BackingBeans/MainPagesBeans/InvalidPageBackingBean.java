@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @Named
 @RequestScoped
-public class InvalidPage_BackingBean implements Serializable {
+public class InvalidPageBackingBean implements Serializable {
 
     private String page;
 

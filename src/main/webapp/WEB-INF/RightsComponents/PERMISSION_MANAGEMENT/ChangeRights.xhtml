@@ -9,7 +9,7 @@
         <p:growl id="changeRightsGrowl" sticky="false" showDetail="true" life="2000"/>
         <br/>
         <br/>
-        <p:dataTable id="eventsDT" var="role" value="#{rolesRights_BackingBean.roleList}" widgetVar="rightsTable"
+        <p:dataTable id="eventsDT" var="role" value="#{rolesRightsBackingBean.roleList}" widgetVar="rightsTable"
                      rowKey="#{role.type}"
                      rows="5">
 
@@ -40,7 +40,7 @@
         </p:dataTable>
         <br/>
         <br/>
-        <p:commandButton id="changeRights" value="#{msg['UpdateRights']}" action="#{rolesRights_BackingBean.submit()}"
+        <p:commandButton id="changeRights" value="#{msg['UpdateRights']}" action="#{rolesRightsBackingBean.submit()}"
                          ajax="true" update="changeRightsGrowl @form"
                          styleClass="aButton"/>
 

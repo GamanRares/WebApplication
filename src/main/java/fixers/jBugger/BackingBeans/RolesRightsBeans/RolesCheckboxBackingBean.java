@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @Named
 @RequestScoped
-public class RolesCheckbox_BackingBean implements Serializable {
+public class RolesCheckboxBackingBean implements Serializable {
 
     @Inject
     private RoleEJB roleEJB;
