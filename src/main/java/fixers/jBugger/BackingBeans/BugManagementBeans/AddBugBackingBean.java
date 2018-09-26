@@ -1,6 +1,7 @@
 package fixers.jBugger.BackingBeans.BugManagementBeans;
 
 import fixers.jBugger.BackingBeans.MainPagesBeans.LoginBackingBean;
+import fixers.jBugger.BackingBeans.UserManagementBeans.MemorizeValuesBackingBean;
 import fixers.jBugger.DatabaseEnums.BugSeverityEnum;
 import fixers.jBugger.DatabaseEnums.NotificationTypeEnum;
 import fixers.jBugger.Loggers.GrowlMessage;
@@ -13,22 +14,29 @@ import lombok.Data;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.UploadedFile;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.ConstraintViolationException;
 import java.io.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 
 @Data
 @Named
-@SessionScoped
+@RequestScoped
 public class AddBugBackingBean implements Serializable {
     private String title;
     private String description;
@@ -42,10 +50,11 @@ public class AddBugBackingBean implements Serializable {
     private BugSeverityEnum severity;
     private User assignedToUser;
     private byte[] attachment;
+    private List<String> users = new ArrayList<>();
+
 
     @Inject
     private LoginBackingBean loginBackingBean;
-
 
     @Inject
     private UserEJB userEJB;
@@ -59,7 +68,15 @@ public class AddBugBackingBean implements Serializable {
     @Inject
     private ViewBugsBackingBean viewBugsBackingBean;
 
-    private static final Logger LOGGER = Logger.getLogger(AddBugBackingBean.class.getName());
+    @Inject
+    private MemorizeValuesBackingBean memorizeValuesBackingBean;
+
+    @PostConstruct
+    public void init() {
+
+        this.userEJB.getUsers().forEach(user -> this.users.add(user.getUsername()));
+
+    }
 
     public void clickCalendar() {
         PrimeFaces.current().ajax().update("form:display");
@@ -75,11 +92,13 @@ public class AddBugBackingBean implements Serializable {
 
             String[] extension = uploadedFile.getFileName().split("\\.");
             if (extension.length == 2 && extension[1].matches("^(pdf|doc|docx|odf|xlsx|xls|jpg|jpeg|png|gif|bmp)$")) {
-                LOGGER.info("Uploaded " + uploadedFile.getFileName());
                 attachment = uploadedFile.getContents();
                 attachmentName = uploadedFile.getFileName();
                 FacesMessage message = new FacesMessage("Succesful", uploadedFile.getFileName() + " is uploaded.");
                 FacesContext.getCurrentInstance().addMessage(null, message);
+
+                this.memorizeValuesBackingBean.setOldAttachment(attachment);
+                this.memorizeValuesBackingBean.setOldAttachmentName(attachmentName);
             } else
                 GrowlMessage.sendMessage("Error", "File not supported!");
 
@@ -137,7 +156,9 @@ public class AddBugBackingBean implements Serializable {
 
                 Notification notification = this.notificationEJB.getMaxNotification();
 
-                bugEJB.addBug(title, description, targetDate, severity, assignedToUser, createdByUser, attachment, attachmentName, notification);
+                bugEJB.addBug(title, description, targetDate, severity, assignedToUser, createdByUser, this.memorizeValuesBackingBean.getOldAttachment(), this.memorizeValuesBackingBean.getOldAttachmentName(), notification);
+
+                this.memorizeValuesBackingBean.deleteAll();
 
                 GrowlMessage.sendMessage("Info !", "Bug successfully added");
 
@@ -147,6 +168,23 @@ public class AddBugBackingBean implements Serializable {
             }
         } else
             GrowlMessage.sendMessage("Error !", "User assigned to doesn't exist");
+    }
+
+    public void handleChange(AjaxBehaviorEvent event) {
+
+        this.assignedToUsername = (String) ((UIOutput) event.getSource()).getValue();
+
+        if (isUsernameSelected()) {
+            GrowlMessage.sendMessage("Info !", "User selected : " + this.assignedToUsername);
+        } else
+            GrowlMessage.sendMessage("Error !", "You must select a user");
+
+    }
+
+    private boolean isUsernameSelected() {
+
+        return this.assignedToUsername != null && !this.assignedToUsername.equals("");
+
     }
 
     private String generateNotificationMessage() {

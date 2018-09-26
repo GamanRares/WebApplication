@@ -140,6 +140,8 @@ public class EditUserBackingBean implements Serializable {
                 .append("Old Roles : ").append(oldCommaSeparatedRoles).append(newLine)
                 .append("Old Active : ").append(this.memorizeValuesBackingBean.isOldIsActive());
 
+        this.memorizeValuesBackingBean.deleteAll();
+
         return stringBuilder.toString();
 
     }
