@@ -13,12 +13,13 @@
             <p:dataTable var="notification" value="#{viewNotificationsBackingBean}"
                          selection="#{viewNotificationsBackingBean.selectedNotification}" selectionMode="single"
                          id="notificationTable"
-                         rowKey="#{notification.notification_id.toString()}" lazy="true" paginator="true" rows="10"
+                         rowKey="#{notification.notification_id.toString()}" lazy="true" paginator="true" rows="5"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          rowsPerPageTemplate="5,10,15"
-                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+            >
                 <p:ajax event="rowSelect" listener="#{viewNotificationsBackingBean.rowSelected}"
                         update=":viewNotifications:outputLabel"/>
-                <p:column id="c1" headerText="ID" sortBy="#{notification.notification_id}" filterBy="#{notification.notification_ide}">
+                <p:column id="c1" headerText="ID" sortBy="#{notification.notification_id}" filterBy="#{notification.notification_id}">
                     <h:outputText value="#{notification.notification_id.toString()}"/>
                 </p:column>
 

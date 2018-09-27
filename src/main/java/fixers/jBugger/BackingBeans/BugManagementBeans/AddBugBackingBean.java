@@ -74,7 +74,7 @@ public class AddBugBackingBean implements Serializable {
     @PostConstruct
     public void init() {
 
-        this.userEJB.getUsers().forEach(user -> this.users.add(user.getUsername()));
+        this.userEJB.getActiveUsers().forEach(user -> this.users.add(user.getUsername()));
 
     }
 

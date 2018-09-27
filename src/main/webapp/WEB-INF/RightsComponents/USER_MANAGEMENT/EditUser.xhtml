@@ -16,7 +16,7 @@
                 <p:defaultCommand target="editUser"/>
                 <h3 class="title"><h:outputText value="#{msg['EditUserTitle']}"/></h3>
 
-                <p:outputLabel for="selectUsername" styleClass="myFont" value="#{msg['SelectUsername']}" color="white"/>
+                <p:outputLabel for="selectUsername" styleClass="myFont" value="#{msg['SelectUsername']}"/>
                 <p:selectOneMenu id="selectUsername" value="#{editUserBackingBean.usernameToUpdate}" filter="true"
                                  filterMatchMode="contains">
                     <f:selectItem itemLabel="#{msg['SelectAUser']}" itemValue=""/>
@@ -26,28 +26,28 @@
                 </p:selectOneMenu>
                 <br/>
                 <br/>
-                <h:outputText styleClass="myFont" value="#{msg['FirstName']}" color="white" style="display:block ;"/>
+                <h:outputText styleClass="myFont" value="#{msg['FirstName']}"/>
                 <p:inputText id="userFirstName" value="#{editUserBackingBean.userFirstName}" required="true"
                              label="#{msg['FirstName']}"/>
                 <br/>
                 <br/>
-                <h:outputText styleClass="myFont" value="#{msg['LastName']}" style="display:block;" color="white"/>
+                <h:outputText styleClass="myFont" value="#{msg['LastName']}"/>
                 <p:inputText id="userLastName" value="#{editUserBackingBean.userLastName}" required="true"
                              label="#{msg['LastName']}"/>
                 <br/>
                 <br/>
-                <h:outputText styleClass="myFont" value="#{msg['Password']}" style="display:block;" color="white"/>
+                <h:outputText styleClass="myFont" value="#{msg['Password']}"/>
                 <p:password id="userPassword" value="#{editUserBackingBean.userPassword}"
                             label="#{msg['Password']}"/>
                 <p:watermark for="userPassword" value="#{msg['LeftBlank']}" id="watermark"/>
                 <br/>
                 <br/>
-                <h:outputText styleClass="myFont" value="#{msg['Email']}" style="display:block;" color="white"/>
+                <h:outputText styleClass="myFont" value="#{msg['Email']}"/>
                 <p:inputText id="userEmail" value="#{editUserBackingBean.userEmail}" required="true"
                              label="#{msg['Email']}"/>
                 <br/>
                 <br/>
-                <h:outputText styleClass="myFont" value="#{msg['MobileNumber']}" style="display:block;" color="white"/>
+                <h:outputText styleClass="myFont" value="#{msg['MobileNumber']}"/>
                 <p:selectOneMenu id="userMobileNumber" value="#{editUserBackingBean.userMobileNumber}" effect="fold"
                                  editable="true" required="true" label="#{msg['MobileNumber']}">
                     <f:selectItem itemLabel="0040" itemValue="0040"/>
@@ -59,7 +59,7 @@
                 </p:selectOneMenu>
                 <br/>
                 <br/>
-                <h:outputLabel for="multipleChoice" styleClass="myFont" value="#{msg['Roles']}" color="white"/>
+                <h:outputLabel for="multipleChoice" styleClass="myFont" value="#{msg['Roles']}"/>
                 <p:selectCheckboxMenu id="multipleChoice" value="#{editUserBackingBean.userRoles}"
                                       multiple="true"
                                       filter="true" filterMatchMode="startsWith" panelStyle="width:250px">

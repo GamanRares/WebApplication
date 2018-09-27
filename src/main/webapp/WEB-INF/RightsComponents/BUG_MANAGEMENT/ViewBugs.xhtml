@@ -4,16 +4,19 @@
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:p="http://primefaces.org/ui">
+
     <f:view>
-        <h2 class="title"><h:outputText value="#{msg['ViewBugs']}"/></h2>
         <h:form id="bugsListForm">
             <div class="centered">
+                <h3 class="title"><h:outputText value="#{msg['ViewBugs']}"/></h3>
+
                 <p:dataTable var="bug" id="bugsTable" value="#{viewBugsBackingBean}"
                              rowKey="#{bug.id}"
                              emptyMessage="#{msg['NoRecordsFound']}"
                              lazy="true" paginator="true" rows="5"
                              editable="true" editMode="cell" cellEditMode="lazy"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15"
                 >
                     <p:column id="c1" headerText="#{msg['Bug']}" sortBy="#{bug.id}" filterBy="#{bug.id}">
                         <h:outputText value="#{bug.id}"/>
@@ -89,10 +92,8 @@
                 <br/>
             </div>
 
-
-
-
-            <p:commandButton value="#{msg['ExportTableAsExcel']}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" immediate="true"
+            <p:commandButton value="#{msg['ExportTableAsExcel']}" ajax="false"
+                             onclick="PrimeFaces.monitorDownload(start, stop);" immediate="true"
                              icon="ui-icon-arrowthick-1-s">
                 <p:fileDownload value="#{excelCreationBackingBean.file}"/>
             </p:commandButton>

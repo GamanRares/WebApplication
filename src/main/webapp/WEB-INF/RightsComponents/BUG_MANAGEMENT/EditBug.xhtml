@@ -6,87 +6,94 @@
         xmlns:p="http://primefaces.org/ui">
 
     <f:view>
-        <h2 class="title"><h:outputText value="#{msg['EditBugs']}"/></h2>
         <p:growl id="editBugGrowl" showDetail="true" sticky="false"/>
-        <h:form id="searchBug">
-            <h:outputText value="#{msg['EnterAssignedUsernameToFindTheBug']}" styleClass="myFont"/>
-            <h:inputText id="assignedToUser" value="#{editBugBackingBean.usernameAssignedTo}" required="true"
-                         label="#{msg['AssignedTo']}"/>
+
+        <div class="centered">
+
+            <h:form id="searchBug">
+                <h3 class="title"><h:outputText value="#{msg['EditBugs']}"/></h3>
+
+                <p:outputLabel for="selectUsername" styleClass="myFont" value="#{msg['SelectUsername']}"/>
+                <p:selectOneMenu id="selectUsername" value="#{editBugBackingBean.usernameAssignedTo}"
+                                 filter="true" filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{msg['SelectAUser']}" itemValue=""/>
+                    <f:selectItems value="#{editBugBackingBean.users}"/>
+                    <p:ajax event="change" listener="#{editBugBackingBean.handleChange}" ajaxSingle="true"
+                            execute="@this" update="listBug editBugGrowl"/>
+                </p:selectOneMenu>
+
+            </h:form>
+
             <br/>
-            <p:commandButton value="#{msg['Search']}" action="#{editBugBackingBean.searchUsername}"
-                             ajax="true"
-                             update=":searchBug:outputLabel listBug"
-                             styleClass="aButton"/>
             <br/>
-            <p:outputLabel id="outputLabel" value="#{editBugBackingBean.outputMessage}" styleClass="myFont"/>
-        </h:form>
-        <br/>
-        <h:form id="listBug">
-            <p:dataTable id="editBug" var="bug" value="#{editBugBackingBean.bugsAssignedToUser}"
-                         selectionMode="single"
-                         rowKey="#{bug.id}"
-                         editable="true" editMode="cell"
-                         style="margin-bottom:20px" emptyMessage="#{msg['NoRecordsFound']}">
 
-                <p:ajax event="cellEdit" listener="#{editBugBackingBean.onCellEdit}" update="editBug editBugGrowl"/>
+            <h:form id="listBug">
+                <p:dataTable id="editBug" var="bug" value="#{editBugBackingBean.bugsAssignedToUser}"
+                             selectionMode="single"
+                             rowKey="#{bug.id}"
+                             editable="true" editMode="cell"
+                             style="margin-bottom:20px" emptyMessage="#{msg['NoRecordsFound']}"
+                             lazy="true" paginator="true" rows="5"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15">
 
-                <p:column headerText="Id">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{bug.id}"/></f:facet>
-                        <f:facet name="input"><p:inputText id="modelInput" value="#{bug.id}"
-                                                           style="width:100%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
+                    <p:ajax event="cellEdit" listener="#{editBugBackingBean.onCellEdit}" update="editBug editBugGrowl"
+                            oncomplete="PF('theWidget').filter()"/>
 
-                <p:column headerText="#{msg['Title']}">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{bug.title}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{bug.title}" style="width:100%"
-                                                           label="title"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
+                    <p:column headerText="ID">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{bug.id}"/></f:facet>
+                            <f:facet name="input"><p:inputText id="modelInput" value="#{bug.id}"
+                                                               style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
 
-                <p:column headerText="#{msg['Description']}">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{bug.description}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{bug.description}" style="width:100%"
-                                                           label="description"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
+                    <p:column headerText="#{msg['Title']}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{bug.title}"/></f:facet>
+                            <f:facet name="input"><p:inputText value="#{bug.title}" style="width:100%"
+                                                               label="title"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
 
-                <p:column headerText="#{msg['Version']}">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{bug.version}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{bug.version}" style="width:100%"
-                                                           label="version"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
+                    <p:column headerText="#{msg['Description']}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{bug.description}"/></f:facet>
+                            <f:facet name="input"><p:inputText value="#{bug.description}" style="width:100%"
+                                                               label="description"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
 
-                <p:column headerText="#{msg['Severity']}">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{bug.severity}"/></f:facet>
-                        <f:facet name="input">
-                            <h:selectOneMenu value="#{bug.severity}" style="width:100%">
-                                <f:selectItems value="#{editBugBackingBean.bugSeverities}"/>
-                            </h:selectOneMenu>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
+                    <p:column headerText="#{msg['Version']}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{bug.version}"/></f:facet>
+                            <f:facet name="input"><p:inputText value="#{bug.version}" style="width:100%"
+                                                               label="version"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
 
-                <p:column headerText="#{msg['AssignedTo']}">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{bug.assignedTo}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{bug.assignedTo}" style="width:100%"
-                                                           label="assignedTo"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
+                    <p:column headerText="#{msg['Severity']}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{bug.severity}"/></f:facet>
+                            <f:facet name="input">
+                                <h:selectOneMenu value="#{bug.severity}" style="width:100%">
+                                    <f:selectItems value="#{editBugBackingBean.bugSeverities}"/>
+                                </h:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
 
-            </p:dataTable>
+                    <p:column headerText="#{msg['AssignedTo']}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{bug.assignedTo}"/></f:facet>
+                            <f:facet name="input"><p:inputText value="#{bug.assignedTo}" style="width:100%"
+                                                               label="assignedTo"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
 
-            <p:contextMenu for="editBug" widgetVar="cMenu">
-                <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellBugs').showCellEditor();return false;"/>
-                <p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>
-            </p:contextMenu>
-        </h:form>
+                </p:dataTable>
+
+            </h:form>
+        </div>
     </f:view>
 </ui:composition>

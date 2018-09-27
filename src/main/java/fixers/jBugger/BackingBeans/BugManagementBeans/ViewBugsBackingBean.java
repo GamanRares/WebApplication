@@ -5,12 +5,6 @@ import fixers.jBugger.BusinessLogic.BugEJB;
 import fixers.jBugger.DatabaseEntitites.Bug;
 import lombok.Data;
 import lombok.ToString;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -74,7 +68,7 @@ public class ViewBugsBackingBean extends LazyDataModel<Bug> {
                         privateStringField.setAccessible(true);
                         String fieldValue = privateStringField.get(bug).toString();
 
-                        if (filterValue.equals("") || filterValue == null || fieldValue.startsWith(filterValue.toString())) {
+                        if (filterValue == null || fieldValue.contains(filterValue.toString())) {
                             match = true;
                         } else {
                             match = false;
@@ -129,11 +123,6 @@ public class ViewBugsBackingBean extends LazyDataModel<Bug> {
                     }
                 }
 
-//                if (bugField != null) {
-//
-//                } else {
-//                    return 1;
-
                 if (bugField != null) {
                     Object val1 = Bug.class.getField(this.sortField).get(bug1);
                     Object val2 = Bug.class.getField(this.sortField).get(bug2);
@@ -156,18 +145,4 @@ public class ViewBugsBackingBean extends LazyDataModel<Bug> {
         pdfCreationBackingBean.setHasSelectedBug(true);
     }
 
-    //TODO EXCEL TRANSFORMATION NOT WORKING ALWAYS
-    public void postProcessXLS(Object document) {
-        HSSFWorkbook wb = (HSSFWorkbook) document;
-        HSSFSheet sheet = wb.getSheetAt(0);
-        CellStyle style = wb.createCellStyle();
-        style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
-
-        for (Row row : sheet) {
-            for (Cell cell : row) {
-                cell.setCellValue(cell.getStringCellValue().toUpperCase());
-                cell.setCellStyle(style);
-            }
-        }
-    }
 }

@@ -1,5 +1,7 @@
 package fixers.jBugger.BackingBeans.UserManagementBeans;
 
+import fixers.jBugger.BackingBeans.BugManagementBeans.EditBugBackingBean;
+import fixers.jBugger.BackingBeans.BugManagementBeans.UpdateBugStatusBackingBean;
 import fixers.jBugger.Loggers.GrowlMessage;
 import fixers.jBugger.Utility.UsernameGenerator;
 import fixers.jBugger.BusinessLogic.NotificationEJB;
@@ -45,6 +47,12 @@ public class AddUserBackingBean implements Serializable {
     @Inject
     private UsernameGenerator usernameGenerator;
 
+    @Inject
+    private EditBugBackingBean editBugBackingBean;
+
+    @Inject
+    private UpdateBugStatusBackingBean updateBugStatusBackingBean;
+
     public void saveUser() {
 
         String username = usernameGenerator.create(userFirstName, userLastName);
@@ -57,6 +65,14 @@ public class AddUserBackingBean implements Serializable {
             this.userEJB.addUser(this.userFirstName, this.userLastName, this.userMobileNumber, this.userEmail, encryptedPassword, this.userRoles, username);
             this.notificationEJB.sendNotificationToOneUser(username, now, message, NotificationTypeEnum.WELCOME_NEW_USER);
             this.clearData();
+
+            List<String> users = this.userEJB.getUsernames();
+
+            if(this.editBugBackingBean.getUsers() == null || this.editBugBackingBean.getUsers().size() != users.size())
+                this.editBugBackingBean.setUsers(users);
+
+            if(this.updateBugStatusBackingBean.getUsers() == null || this.updateBugStatusBackingBean.getUsers().size() != users.size())
+                this.updateBugStatusBackingBean.setUsers(users);
 
             GrowlMessage.sendMessage("Info !", "User added successfully");
         } catch (EJBException e) {

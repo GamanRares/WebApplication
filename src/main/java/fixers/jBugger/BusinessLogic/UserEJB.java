@@ -64,6 +64,19 @@ public class UserEJB implements Serializable {
 
     }
 
+    public List<User> getActiveUsers() {
+
+        CriteriaBuilder builder = businessLogic.getEm().getCriteriaBuilder();
+
+        CriteriaQuery<User> usernameQuery = builder.createQuery(User.class);
+        Root<User> fromUser = usernameQuery.from(User.class);
+
+        usernameQuery.where(builder.equal(fromUser.get(User_.isActive), true));
+
+        return businessLogic.getEm().createQuery(usernameQuery).getResultList();
+
+    }
+
     public List<String> getUsernames() {
 
         List<User> users = this.getUsers();

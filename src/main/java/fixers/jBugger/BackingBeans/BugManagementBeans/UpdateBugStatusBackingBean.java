@@ -2,6 +2,7 @@ package fixers.jBugger.BackingBeans.BugManagementBeans;
 
 import fixers.jBugger.BusinessLogic.BugEJB;
 import fixers.jBugger.BusinessLogic.NotificationEJB;
+import fixers.jBugger.BusinessLogic.UserEJB;
 import fixers.jBugger.DatabaseEntitites.Bug;
 import fixers.jBugger.DatabaseEnums.BugStatusEnum;
 import fixers.jBugger.DatabaseEnums.NotificationTypeEnum;
@@ -12,6 +13,8 @@ import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.SelectEvent;
 
 import javax.annotation.PostConstruct;
+import javax.faces.component.UIOutput;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,7 +27,8 @@ import java.util.List;
 @Named
 @ViewScoped
 public class UpdateBugStatusBackingBean implements Serializable {
-    private String usernameAssignedTo;
+    private String usernameAssignedToCloseBug;
+    private String usernameAssignedToChangeStatus;
     private List<Bug> bugsAssignedToUser;
     private String myStatus;
 
@@ -35,30 +39,60 @@ public class UpdateBugStatusBackingBean implements Serializable {
     private Bug selectedBug = null;
     BugStatusEnum selectedStatus = null;
 
+    private List<String> users = new ArrayList<>();
+
+
     @Inject
     private BugEJB bugEJB;
 
     @Inject
     private NotificationEJB notificationEJB;
 
+    @Inject
+    private UserEJB userEJB;
+
     @PostConstruct
     public void init() {
+
         bugsAssignedToUser = new ArrayList<>();
         bugsSelected = new ArrayList<>();
+        this.users = this.userEJB.getUsernames();
+
     }
 
-    public void searchUsername() {
-        List<Bug> bugs = bugEJB.findBugsAssignedTo(usernameAssignedTo);
-        if (bugs != null) {
-            bugsAssignedToUser = bugs;
+    public void handleChange(AjaxBehaviorEvent event) {
+
+        this.usernameAssignedToCloseBug = (String) ((UIOutput) event.getSource()).getValue();
+
+        if (isUsernameSelected()) {
+            this.searchUsername();
+            GrowlMessage.sendMessage("Info !", "User selected  : " + this.usernameAssignedToCloseBug);
+        } else {
+            this.setBugsAssignedToNull();
+            GrowlMessage.sendMessage("Error !", "You must select a user");
         }
+
     }
 
-    public void searchUsernameClose() {
-        List<Bug> bugs = bugEJB.findBugsAssignedTo(usernameAssignedTo);
+    private void setBugsAssignedToNull() {
+        this.bugsSelected = null;
+    }
+
+    private boolean isUsernameSelected() {
+
+        return this.usernameAssignedToCloseBug != null && !this.usernameAssignedToCloseBug.equals("");
+
+    }
+
+    private void searchUsername() {
+        List<Bug> bugs = bugEJB.findBugsAssignedTo(usernameAssignedToCloseBug);
         if (bugs != null) {
-            bugsSelected = bugs;
+            this.bugsSelected = bugs;
+        } else {
+            this.setBugsAssignedToNull();
+            GrowlMessage.sendMessage("Info !", this.usernameAssignedToCloseBug + " doesn't have bugs assigned");
         }
+
     }
 
     public boolean acceptsStatusNew(BugStatusEnum status) {
@@ -139,7 +173,6 @@ public class UpdateBugStatusBackingBean implements Serializable {
                 .append("Description : ").append(editedBug.getDescription()).append(newLine)
                 .append("Target date : ").append(editedBug.getTargetDate()).append(newLine)
                 .append("Severity : ").append(editedBug.getSeverity().toString()).append(newLine)
-                .append("Status : ").append(editedBug.getStatus().toString()).append(newLine)
                 .append("New Status : ").append(editedBug.getStatus().toString()).append(newLine)
                 .append("Old Status : ").append(oldStatus).append(newLine)
                 .append("Assigned to : ").append(editedBug.getAssignedTo().getUsername()).append(newLine)

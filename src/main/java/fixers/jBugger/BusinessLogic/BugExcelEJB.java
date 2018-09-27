@@ -33,7 +33,6 @@ public class BugExcelEJB implements Serializable {
             this.addBugsToDataTypes(bugList, datatypes);
 
 
-
         int rowNum = 0;
         System.out.println("Creating excel");
 
@@ -45,7 +44,7 @@ public class BugExcelEJB implements Serializable {
             }
         }
 
-        for(int i = 0; i < header.size(); i++) {
+        for (int i = 0; i < header.size(); i++) {
             sheet.autoSizeColumn(i);
         }
 
@@ -85,7 +84,10 @@ public class BugExcelEJB implements Serializable {
         bugString.add(bug.getStatus().toString());
         bugString.add(bug.getCreatedBy().getUsername());
         bugString.add(bug.getAssignedTo().getUsername());
-        bugString.add(bug.getAttachment().getAttachmentName());
+        if (bug.getAttachment() == null)
+            bugString.add("-");
+        else
+            bugString.add(bug.getAttachment().getAttachmentName());
         bugString.add(bug.getNotification().getNotificationMessage());
 
         return bugString;

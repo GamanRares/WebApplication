@@ -4,25 +4,38 @@
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:p="http://primefaces.org/ui">
+
     <f:view>
         <p:growl id="closeStatusBugGrowl" showDetail="true" sticky="false"/>
-        <h:form id="closeBugAfterUser">
-            <h:outputText value="#{msg['EnterAssignedUsernameToFindTheBug']}" styleClass="myFont"/>
-            <h:inputText id="assignedToUser" value="#{updateBugStatusBackingBean.usernameAssignedTo}" required="true"
-                         label="#{msg['AssignedTo']}"/>
+
+        <div class="centered">
+
+            <h:form id="closeBugAfterUser">
+                <h3 class="title"><h:outputText value="#{msg['CloseBug']}"/></h3>
+
+                <p:outputLabel for="selectUsername" styleClass="myFont" value="#{msg['SelectUsername']}"/>
+                <p:selectOneMenu id="selectUsername" value="#{updateBugStatusBackingBean.usernameAssignedToCloseBug}"
+                                 filter="true"
+                                 filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{msg['SelectAUser']}" itemValue=""/>
+                    <f:selectItems value="#{updateBugStatusBackingBean.users}"/>
+                    <p:ajax event="change" listener="#{updateBugStatusBackingBean.handleChange}" ajaxSingle="true"
+                            execute="@this" update="bugCloseForm closeStatusBugGrowl"/>
+                </p:selectOneMenu>
+
+            </h:form>
+
             <br/>
-            <p:commandButton value="#{msg['Search']}" action="#{updateBugStatusBackingBean.searchUsernameClose}"
-                             ajax="true"
-                             update="bugCloseForm"
-                             styleClass="aButton"/>
-        </h:form>
-        <br/>
-        <h:form id="bugCloseForm">
-            <div class="centered">
+            <br/>
+
+            <h:form id="bugCloseForm">
                 <p:dataTable var="bug" id="bugCloseTable" value="#{updateBugStatusBackingBean.bugsSelected}"
-                             selectionMode="single" selection="#{updateBugStatusBackingBean.selectedBug}" rowKey="#{bug.id}"
+                             selectionMode="single" selection="#{updateBugStatusBackingBean.selectedBug}"
+                             rowKey="#{bug.id}"
                              emptyMessage="#{msg['NoRecordsFound']}"
                              lazy="true" paginator="true" rows="5"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15"
                 >
                     <p:ajax event="rowSelect" listener="#{updateBugStatusBackingBean.rowSelected}"
                             update="bugCloseTable closeStatusBugGrowl"/>
@@ -39,7 +52,7 @@
                 </p:dataTable>
                 <p:commandButton value="#{msg['CloseBug']}" action="#{updateBugStatusBackingBean.closeBugStatus}"
                                  ajax="false"/>
-            </div>
-        </h:form>
+            </h:form>
+        </div>
     </f:view>
 </ui:composition>
