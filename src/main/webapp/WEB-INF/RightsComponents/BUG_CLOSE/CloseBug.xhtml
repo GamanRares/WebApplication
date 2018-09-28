@@ -19,7 +19,7 @@
                                  filterMatchMode="contains">
                     <f:selectItem itemLabel="#{msg['SelectAUser']}" itemValue=""/>
                     <f:selectItems value="#{updateBugStatusBackingBean.users}"/>
-                    <p:ajax event="change" listener="#{updateBugStatusBackingBean.handleChange}" ajaxSingle="true"
+                    <p:ajax event="change" listener="#{updateBugStatusBackingBean.handleCloseChange}" ajaxSingle="true"
                             execute="@this" update="bugCloseForm closeStatusBugGrowl"/>
                 </p:selectOneMenu>
 
@@ -29,29 +29,33 @@
             <br/>
 
             <h:form id="bugCloseForm">
-                <p:dataTable var="bug" id="bugCloseTable" value="#{updateBugStatusBackingBean.bugsSelected}"
-                             selectionMode="single" selection="#{updateBugStatusBackingBean.selectedBug}"
-                             rowKey="#{bug.id}"
-                             emptyMessage="#{msg['NoRecordsFound']}"
-                             lazy="true" paginator="true" rows="5"
-                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                             rowsPerPageTemplate="5,10,15"
-                >
-                    <p:ajax event="rowSelect" listener="#{updateBugStatusBackingBean.rowSelected}"
-                            update="bugCloseTable closeStatusBugGrowl"/>
-                    <p:column headerText="#{msg['Bug']}">
-                        <h:outputText value="#{bug.id}"/>
-                    </p:column>
+                <p:outputPanel id="panel">
+                    <p:dataTable var="bug" id="bugCloseTable" value="#{updateBugStatusBackingBean.bugsForClose}"
+                                 selectionMode="single" selection="#{updateBugStatusBackingBean.selectedBug}"
+                                 rowKey="#{bug.id}"
+                                 emptyMessage="#{msg['NoRecordsFound']}"
+                                 lazy="true" paginator="true" rows="5"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 rowsPerPageTemplate="5,10,15"
+                    >
+                        <p:ajax event="rowSelect" listener="#{updateBugStatusBackingBean.rowSelected}"
+                                update="bugCloseTable closeStatusBugGrowl"/>
+                        <p:column headerText="#{msg['Bug']}">
+                            <h:outputText value="#{bug.id}"/>
+                        </p:column>
 
-                    <p:column headerText="#{msg['Title']}">
-                        <h:outputText value="#{bug.title}"/>
-                    </p:column>
-                    <p:column headerText="#{msg['Status']}">
-                        <h:outputText value="#{bug.status}"/>
-                    </p:column>
-                </p:dataTable>
+                        <p:column headerText="#{msg['Title']}">
+                            <h:outputText value="#{bug.title}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['Status']}">
+                            <h:outputText value="#{bug.status}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+                <br/>
+                <br/>
                 <p:commandButton value="#{msg['CloseBug']}" action="#{updateBugStatusBackingBean.closeBugStatus}"
-                                 ajax="false"/>
+                                 ajax="true" update=":bugCloseForm:panel"/>
             </h:form>
         </div>
     </f:view>

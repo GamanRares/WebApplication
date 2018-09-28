@@ -7,6 +7,9 @@
     <f:view>
         <h:form id="bugsListForm">
             <div class="centered">
+
+                <h3 class="title"><h:outputText value="#{msg['ExportBug']}"/></h3>
+
                 <p:dataTable var="bug" id="bugsTable" value="#{viewBugsBackingBean}"
                              selectionMode="single" selection="#{viewBugsBackingBean.selectedBug}" rowKey="#{bug.id}"
                              emptyMessage="#{msg['NoRecordsFound']}"
@@ -85,6 +88,7 @@
                     </p:column>
 
                 </p:dataTable>
+                <br/>
                 <p:outputLabel id="outputLabel1" value="#{msg['SelectedBugID']}" style="color: white"/>
                 <p:outputLabel id="outputLabel2" value="#{viewBugsBackingBean.selectedBugId}" style="color: white"/>
                 <br/>

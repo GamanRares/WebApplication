@@ -29,15 +29,16 @@ import java.util.List;
 public class UpdateBugStatusBackingBean implements Serializable {
     private String usernameAssignedToCloseBug;
     private String usernameAssignedToChangeStatus;
-    private List<Bug> bugsAssignedToUser;
+    private List<Bug> bugsForChange;
+    private List<Bug> bugsForClose;
+
     private String myStatus;
 
     private Bug editedBug;
 
     private List<BugStatusEnum> possibleBugStatus = new ArrayList<>();
-    private List<Bug> bugsSelected;
     private Bug selectedBug = null;
-    BugStatusEnum selectedStatus = null;
+    private BugStatusEnum selectedStatus = null;
 
     private List<String> users = new ArrayList<>();
 
@@ -54,43 +55,73 @@ public class UpdateBugStatusBackingBean implements Serializable {
     @PostConstruct
     public void init() {
 
-        bugsAssignedToUser = new ArrayList<>();
-        bugsSelected = new ArrayList<>();
+        bugsForChange = new ArrayList<>();
+        bugsForClose = new ArrayList<>();
         this.users = this.userEJB.getUsernames();
 
     }
 
-    public void handleChange(AjaxBehaviorEvent event) {
+    public void handleCloseChange(AjaxBehaviorEvent event) {
 
         this.usernameAssignedToCloseBug = (String) ((UIOutput) event.getSource()).getValue();
 
-        if (isUsernameSelected()) {
-            this.searchUsername();
+        if (isUsernameSelected("Close")) {
+            this.searchUsername("Close");
             GrowlMessage.sendMessage("Info !", "User selected  : " + this.usernameAssignedToCloseBug);
         } else {
-            this.setBugsAssignedToNull();
+            this.setBugsAssignedToNull("Close");
             GrowlMessage.sendMessage("Error !", "You must select a user");
         }
 
     }
 
-    private void setBugsAssignedToNull() {
-        this.bugsSelected = null;
-    }
+    public void handleUpdateChange(AjaxBehaviorEvent event) {
 
-    private boolean isUsernameSelected() {
+        this.usernameAssignedToChangeStatus = (String) ((UIOutput) event.getSource()).getValue();
 
-        return this.usernameAssignedToCloseBug != null && !this.usernameAssignedToCloseBug.equals("");
-
-    }
-
-    private void searchUsername() {
-        List<Bug> bugs = bugEJB.findBugsAssignedTo(usernameAssignedToCloseBug);
-        if (bugs != null) {
-            this.bugsSelected = bugs;
+        if (isUsernameSelected("")) {
+            this.searchUsername("");
+            GrowlMessage.sendMessage("Info !", "User selected  : " + this.usernameAssignedToChangeStatus);
         } else {
-            this.setBugsAssignedToNull();
-            GrowlMessage.sendMessage("Info !", this.usernameAssignedToCloseBug + " doesn't have bugs assigned");
+            this.setBugsAssignedToNull("");
+            GrowlMessage.sendMessage("Error !", "You must select a user");
+        }
+
+    }
+
+    private void setBugsAssignedToNull(String forWhat) {
+        if (forWhat.equals("Close"))
+            this.bugsForClose = null;
+        else
+            this.bugsForChange = null;
+    }
+
+    private boolean isUsernameSelected(String forWhat) {
+
+        if (forWhat.equals("Close"))
+            return this.usernameAssignedToCloseBug != null && !this.usernameAssignedToCloseBug.equals("");
+        else
+            return this.usernameAssignedToChangeStatus != null && !this.usernameAssignedToChangeStatus.equals("");
+
+    }
+
+    private void searchUsername(String forWhat) {
+        if (forWhat.equals("Close")) {
+            List<Bug> bugs = bugEJB.findClosableBugsAssignedTo(usernameAssignedToCloseBug);
+            if (bugs != null) {
+                this.bugsForClose = bugs;
+            } else {
+                this.setBugsAssignedToNull("Close");
+                GrowlMessage.sendMessage("Info !", this.usernameAssignedToCloseBug + " doesn't have bugs to be closed");
+            }
+        } else {
+            List<Bug> bugs = this.bugEJB.findUnClosableBugsAssignedTo(this.usernameAssignedToChangeStatus);
+            if (bugs != null) {
+                this.bugsForChange = bugs;
+            } else {
+                this.setBugsAssignedToNull("");
+                GrowlMessage.sendMessage("Info !", this.usernameAssignedToCloseBug + " doesn't have bugs to be changed");
+            }
         }
 
     }
@@ -156,8 +187,9 @@ public class UpdateBugStatusBackingBean implements Serializable {
             else
                 this.notificationEJB.sendNotificationToTwoUsers(bugAssignedToUsername, bugCreatedByUsername, now, message, NotificationTypeEnum.BUG_STATUS_UPDATED);
 
-
             bugEJB.updateBug(editedBug);
+
+            this.bugsForChange = this.bugEJB.findUnClosableBugsAssignedTo(this.usernameAssignedToChangeStatus);
 
             GrowlMessage.sendMessage("Info !", "Bug updated successfully !");
         }
@@ -189,18 +221,50 @@ public class UpdateBugStatusBackingBean implements Serializable {
     }
 
     public void closeBugStatus() {
+
         if (selectedBug == null) {
             GrowlMessage.sendMessage("Invalid", "You have to select a bug!");
         } else {
-            if (selectedStatus.equals(BugStatusEnum.FIXED) || selectedStatus.equals(BugStatusEnum.REJECTED)) {
-                selectedBug.setStatus(BugStatusEnum.CLOSED);
-                selectedBug.setFixingVersion(selectedBug.getVersion() + 1);
-                bugEJB.updateBug(selectedBug);
-                GrowlMessage.sendMessage("Success", "Bug updated !");
-            } else {
-                GrowlMessage.sendMessage("Invalid", "Bug can't be closed yet!");
-            }
+            LocalDate now = LocalDate.now();
+
+            selectedBug.setStatus(BugStatusEnum.CLOSED);
+            selectedBug.setFixingVersion(selectedBug.getVersion() + 1);
+            bugEJB.updateBug(selectedBug);
+
+            String bugCreatedByUsername = selectedBug.getCreatedBy().getUsername();
+
+            String message = this.generateNotificationMessage(selectedBug);
+            NotificationTypeEnum notificationTypeEnum = NotificationTypeEnum.BUG_CLOSED;
+
+            this.bugsForClose = this.bugEJB.findClosableBugsAssignedTo(this.usernameAssignedToCloseBug);
+
+            if (this.usernameAssignedToCloseBug.equals(bugCreatedByUsername))
+                this.notificationEJB.sendNotificationToOneUser(bugCreatedByUsername, now, message, notificationTypeEnum);
+            else
+                this.notificationEJB.sendNotificationToTwoUsers(this.usernameAssignedToCloseBug, bugCreatedByUsername, now, message, notificationTypeEnum);
+
+
+            GrowlMessage.sendMessage("Success", "Bug updated !");
         }
+    }
+
+    private String generateNotificationMessage(Bug editedBug) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        String newLine = System.getProperty("line.separator");
+
+        stringBuilder.append("Bug Closed !").append(newLine)
+                .append("Title : ").append(editedBug.getTitle()).append(newLine)
+                .append("Description : ").append(editedBug.getDescription()).append(newLine)
+                .append("Target date : ").append(editedBug.getTargetDate()).append(newLine)
+                .append("Fixing version : ").append(editedBug.getFixingVersion()).append(newLine)
+                .append("Severity : ").append(editedBug.getSeverity().toString()).append(newLine)
+                .append("Status : ").append(editedBug.getStatus().toString()).append(newLine)
+                .append("Assigned to : ").append(editedBug.getAssignedTo().getUsername()).append(newLine)
+                .append("Created by : ").append(editedBug.getCreatedBy().getUsername());
+
+        return stringBuilder.toString();
+
     }
 
     private BugStatusEnum convertStatus(String value) {

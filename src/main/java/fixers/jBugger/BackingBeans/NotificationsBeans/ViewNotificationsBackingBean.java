@@ -21,9 +21,6 @@ import java.util.stream.Collectors;
 @RequestScoped
 public class ViewNotificationsBackingBean extends LazyDataModel<Notification> {
 
-    private Notification selectedNotification;
-    private String outputMessage;
-
     private List<Notification> notificationList;
 
     @Inject
@@ -41,10 +38,6 @@ public class ViewNotificationsBackingBean extends LazyDataModel<Notification> {
 
         this.notificationList.forEach(notification -> notification.setNotificationMessage(notification.getNotificationMessage().replaceAll("\n", "<br />")));
 
-    }
-
-    public void rowSelected(SelectEvent event) {
-        outputMessage = selectedNotification.getNotificationMessage();
     }
 
     @Override

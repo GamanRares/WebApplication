@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 import java.io.*;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Stateless
@@ -22,6 +23,7 @@ public class BugEJB implements Serializable {
     private BusinessLogic businessLogic;
 
     public void addBug(String title, String description, Date targetDate, BugSeverityEnum bugSeverityEnum, User assignedTo, User createdBy, byte[] attachment, String attachmentName, Notification notification) {
+
         Bug bug = new Bug();
         bug.setTitle(title);
         bug.setDescription(description);
@@ -61,7 +63,6 @@ public class BugEJB implements Serializable {
         bug.setNotification(updated.getNotification());
         bug.setStatus(updated.getStatus());
 
-        businessLogic.getEm().persist(bug);
     }
 
     public List<Bug> findAllBugs() {
@@ -80,6 +81,29 @@ public class BugEJB implements Serializable {
         allUserBugsQuery.select(userBugJoin);
         allUserBugsQuery.where(builder.equal(fromUser.get(User_.username), username));
         List<Bug> bugs = businessLogic.getEm().createQuery(allUserBugsQuery).getResultList();
+        return (bugs.isEmpty()) ? null : bugs;
+    }
+
+    public List<Bug> findClosableBugsAssignedTo(String username) {
+
+        BugStatusEnum rejectedBug = BugStatusEnum.REJECTED;
+        BugStatusEnum fixedBug = BugStatusEnum.FIXED;
+
+        List<Bug> bugs = this.findBugsAssignedTo(username).stream()
+                .filter(bug -> (bug.getStatus().equals(rejectedBug) || bug.getStatus().equals(fixedBug)))
+                .collect(Collectors.toList());
+        return (bugs.isEmpty()) ? null : bugs;
+    }
+
+    public List<Bug> findUnClosableBugsAssignedTo(String username) {
+
+        BugStatusEnum newBug = BugStatusEnum.NEW;
+        BugStatusEnum infoBug = BugStatusEnum.INFO_NEEDED;
+        BugStatusEnum progressBug = BugStatusEnum.IN_PROGRESS;
+
+        List<Bug> bugs = this.findBugsAssignedTo(username).stream()
+                .filter(bug -> bug.getStatus().equals(newBug) || bug.getStatus().equals(infoBug) || bug.getStatus().equals(progressBug))
+                .collect(Collectors.toList());
         return (bugs.isEmpty()) ? null : bugs;
     }
 

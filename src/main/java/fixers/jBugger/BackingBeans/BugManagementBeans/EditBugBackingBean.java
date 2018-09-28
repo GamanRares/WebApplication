@@ -98,17 +98,19 @@ public class EditBugBackingBean implements Serializable {
             Bug editedBug = (Bug) ((DataTable) event.getComponent()).getRowData();
 
             String bugCreatedByUsername = editedBug.getCreatedBy().getUsername();
-            String bugAssignedToUsername = editedBug.getAssignedTo().getUsername();
 
             bugEJB.updateBug(editedBug);
+
+            this.bugsAssignedToUser = bugEJB.findBugsAssignedTo(usernameAssignedTo);
+
 
             String message = this.generateNotificationMessage(editedBug);
             NotificationTypeEnum notificationTypeEnum = NotificationTypeEnum.BUG_UPDATED;
 
-            if (bugAssignedToUsername.equals(bugCreatedByUsername))
+            if (this.usernameAssignedTo.equals(bugCreatedByUsername))
                 this.notificationEJB.sendNotificationToOneUser(bugCreatedByUsername, now, message, notificationTypeEnum);
             else
-                this.notificationEJB.sendNotificationToTwoUsers(bugAssignedToUsername, bugCreatedByUsername, now, message, notificationTypeEnum);
+                this.notificationEJB.sendNotificationToTwoUsers(this.usernameAssignedTo, bugCreatedByUsername, now, message, notificationTypeEnum);
 
             GrowlMessage.sendMessage("Info !", "Bug updated successfully !");
 
