@@ -27,18 +27,17 @@ import java.util.List;
 @Named
 @ViewScoped
 public class UpdateBugStatusBackingBean implements Serializable {
+
     private String usernameAssignedToCloseBug;
     private String usernameAssignedToChangeStatus;
-    private List<Bug> bugsForChange;
-    private List<Bug> bugsForClose;
+    private List<Bug> bugsForChange = new ArrayList<>();
+    private List<Bug> bugsForClose = new ArrayList<>();
 
     private String myStatus;
 
     private Bug editedBug;
 
-    private List<BugStatusEnum> possibleBugStatus = new ArrayList<>();
     private Bug selectedBug = null;
-    private BugStatusEnum selectedStatus = null;
 
     private List<String> users = new ArrayList<>();
 
@@ -55,8 +54,6 @@ public class UpdateBugStatusBackingBean implements Serializable {
     @PostConstruct
     public void init() {
 
-        bugsForChange = new ArrayList<>();
-        bugsForClose = new ArrayList<>();
         this.users = this.userEJB.getUsernames();
 
     }
@@ -90,10 +87,12 @@ public class UpdateBugStatusBackingBean implements Serializable {
     }
 
     private void setBugsAssignedToNull(String forWhat) {
+
         if (forWhat.equals("Close"))
             this.bugsForClose = null;
         else
             this.bugsForChange = null;
+
     }
 
     private boolean isUsernameSelected(String forWhat) {
@@ -106,6 +105,7 @@ public class UpdateBugStatusBackingBean implements Serializable {
     }
 
     private void searchUsername(String forWhat) {
+
         if (forWhat.equals("Close")) {
             List<Bug> bugs = bugEJB.findClosableBugsAssignedTo(usernameAssignedToCloseBug);
             if (bugs != null) {
@@ -120,45 +120,30 @@ public class UpdateBugStatusBackingBean implements Serializable {
                 this.bugsForChange = bugs;
             } else {
                 this.setBugsAssignedToNull("");
-                GrowlMessage.sendMessage("Info !", this.usernameAssignedToCloseBug + " doesn't have bugs to be changed");
+                GrowlMessage.sendMessage("Info !", this.usernameAssignedToChangeStatus + " doesn't have bugs to be changed");
             }
         }
 
     }
 
     public boolean acceptsStatusNew(BugStatusEnum status) {
-        if (status.equals(BugStatusEnum.INFO_NEEDED) || status.equals(BugStatusEnum.IN_PROGRESS) || status.equals(BugStatusEnum.REJECTED) || status.equals(BugStatusEnum.CLOSED)) {
-            return true;
-        } else
-            return false;
+        return status.equals(BugStatusEnum.INFO_NEEDED) || status.equals(BugStatusEnum.IN_PROGRESS) || status.equals(BugStatusEnum.REJECTED) || status.equals(BugStatusEnum.CLOSED);
     }
 
     public boolean acceptsStatusInProgress(BugStatusEnum status) {
-        if (status.equals(BugStatusEnum.FIXED) || status.equals(BugStatusEnum.REJECTED) || status.equals(BugStatusEnum.CLOSED)) {
-            return true;
-        } else
-            return false;
+        return status.equals(BugStatusEnum.FIXED) || status.equals(BugStatusEnum.REJECTED) || status.equals(BugStatusEnum.CLOSED);
     }
 
     public boolean acceptsStatusInfoNeeded(BugStatusEnum status) {
-        if (status.equals(BugStatusEnum.FIXED) || status.equals(BugStatusEnum.REJECTED) || status.equals(BugStatusEnum.CLOSED) || status.equals(BugStatusEnum.NEW)) {
-            return true;
-        } else
-            return false;
+        return status.equals(BugStatusEnum.FIXED) || status.equals(BugStatusEnum.REJECTED) || status.equals(BugStatusEnum.CLOSED) || status.equals(BugStatusEnum.NEW);
     }
 
     public boolean acceptsStatusFixed(BugStatusEnum status) {
-        if (status.equals(BugStatusEnum.INFO_NEEDED) || status.equals(BugStatusEnum.REJECTED) || status.equals(BugStatusEnum.CLOSED) || status.equals(BugStatusEnum.NEW)) {
-            return true;
-        } else
-            return false;
+        return status.equals(BugStatusEnum.INFO_NEEDED) || status.equals(BugStatusEnum.REJECTED) || status.equals(BugStatusEnum.CLOSED) || status.equals(BugStatusEnum.NEW);
     }
 
     public boolean acceptsStatusRejected(BugStatusEnum status) {
-        if (status.equals(BugStatusEnum.FIXED) || status.equals(BugStatusEnum.INFO_NEEDED) || status.equals(BugStatusEnum.CLOSED)) {
-            return true;
-        } else
-            return false;
+        return status.equals(BugStatusEnum.FIXED) || status.equals(BugStatusEnum.INFO_NEEDED) || status.equals(BugStatusEnum.CLOSED);
     }
 
 
@@ -195,31 +180,6 @@ public class UpdateBugStatusBackingBean implements Serializable {
         }
     }
 
-    private String generateNotificationMessage(Bug editedBug, String oldStatus) {
-
-        StringBuilder stringBuilder = new StringBuilder();
-        String newLine = System.getProperty("line.separator");
-
-
-        stringBuilder.append("Title : ").append(editedBug.getTitle()).append(newLine)
-                .append("Description : ").append(editedBug.getDescription()).append(newLine)
-                .append("Target date : ").append(editedBug.getTargetDate()).append(newLine)
-                .append("Severity : ").append(editedBug.getSeverity().toString()).append(newLine)
-                .append("New Status : ").append(editedBug.getStatus().toString()).append(newLine)
-                .append("Old Status : ").append(oldStatus).append(newLine)
-                .append("Assigned to : ").append(editedBug.getAssignedTo().getUsername()).append(newLine)
-                .append("Created by : ").append(editedBug.getCreatedBy().getUsername());
-
-        return stringBuilder.toString();
-
-    }
-
-    public void rowSelected(SelectEvent event) {
-        if (selectedBug != null) {
-            selectedStatus = selectedBug.getStatus();
-        }
-    }
-
     public void closeBugStatus() {
 
         if (selectedBug == null) {
@@ -233,7 +193,7 @@ public class UpdateBugStatusBackingBean implements Serializable {
 
             String bugCreatedByUsername = selectedBug.getCreatedBy().getUsername();
 
-            String message = this.generateNotificationMessage(selectedBug);
+            String message = this.generateNotificationMessage(selectedBug, "");
             NotificationTypeEnum notificationTypeEnum = NotificationTypeEnum.BUG_CLOSED;
 
             this.bugsForClose = this.bugEJB.findClosableBugsAssignedTo(this.usernameAssignedToCloseBug);
@@ -243,24 +203,32 @@ public class UpdateBugStatusBackingBean implements Serializable {
             else
                 this.notificationEJB.sendNotificationToTwoUsers(this.usernameAssignedToCloseBug, bugCreatedByUsername, now, message, notificationTypeEnum);
 
-
             GrowlMessage.sendMessage("Success", "Bug updated !");
         }
     }
 
-    private String generateNotificationMessage(Bug editedBug) {
+    private String generateNotificationMessage(Bug editedBug, String oldStatus) {
 
         StringBuilder stringBuilder = new StringBuilder();
         String newLine = System.getProperty("line.separator");
 
-        stringBuilder.append("Bug Closed !").append(newLine)
-                .append("Title : ").append(editedBug.getTitle()).append(newLine)
+        if (oldStatus.equals(""))
+            stringBuilder.append("Bug Closed !").append(newLine);
+
+        stringBuilder.append("Title : ").append(editedBug.getTitle()).append(newLine)
                 .append("Description : ").append(editedBug.getDescription()).append(newLine)
-                .append("Target date : ").append(editedBug.getTargetDate()).append(newLine)
-                .append("Fixing version : ").append(editedBug.getFixingVersion()).append(newLine)
-                .append("Severity : ").append(editedBug.getSeverity().toString()).append(newLine)
-                .append("Status : ").append(editedBug.getStatus().toString()).append(newLine)
-                .append("Assigned to : ").append(editedBug.getAssignedTo().getUsername()).append(newLine)
+                .append("Target date : ").append(editedBug.getTargetDate()).append(newLine);
+
+        if (oldStatus.equals(""))
+            stringBuilder.append("Fixing version : ").append(editedBug.getFixingVersion()).append(newLine);
+
+        stringBuilder.append("Severity : ").append(editedBug.getSeverity().toString()).append(newLine)
+                .append("New Status : ").append(editedBug.getStatus().toString()).append(newLine);
+
+        if (!oldStatus.equals(""))
+            stringBuilder.append("Old Status : ").append(oldStatus).append(newLine);
+
+        stringBuilder.append("Assigned to : ").append(editedBug.getAssignedTo().getUsername()).append(newLine)
                 .append("Created by : ").append(editedBug.getCreatedBy().getUsername());
 
         return stringBuilder.toString();

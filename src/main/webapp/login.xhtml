@@ -8,7 +8,7 @@
 <f:view locale="#{internationalizationBackingBean.locale}">
     <h:head>
 
-        <img src="resources/LogoMSG1.png" alt="LogoMSGg" width="350" height="150"   />
+        <img src="resources/LogoMSG1.png" alt="LogoMSGg" width="350" height="150"/>
 
         <title>Login</title>
         <h:outputStylesheet library="css" name="styles.css"/>
@@ -17,9 +17,9 @@
 
     <h:body>
         <p:growl id="loginGrowl" showDetail="true" sticky="false"/>
+
         <div class="centered">
             <h:form id="form">
-                <h:commandButton action="#{loginBackingBean.goTo()}" id="buttonId" style="display: none" rendered="false"/>
 
                 <p:defaultCommand target="login"/>
                 <h:commandButton image="resources/RomaniaFlag.png"
@@ -29,6 +29,7 @@
 
                 <h3 class="title"><h:outputText value="#{msg['LoginPageTitle']}"/></h3>
                 <h2 class="subTitle"><h:outputText value="#{msg['Login']}"/></h2>
+
                 <h:outputText styleClass="myFont" value="#{msg['Username']}" style="display:block;"/>
                 <p:inputText id="user" value="#{loginBackingBean.username}" required="true" label="user"/>
                 <br/>
@@ -37,26 +38,10 @@
                 <p:password id="password" value="#{loginBackingBean.password}" required="true" label="password"/>
                 <br/>
                 <br/>
-
-                <!--add to captcha-->
-                <!--<h:outputText styleClass="myFont" value="Password" style="display:block;"/>-->
-                <!--<p:password id="password" value="#{loginBackingBeanNo.password}" required="true" label="password"/>-->
-                <!--<br/><br/>-->
-                <!--<botDetect:simpleJsfCaptcha id="exampleCaptcha"-->
-                <!--binding="#{loginBackingBeanNo.captcha}"/>-->
-                <!--<br/>-->
-                <!--<div>-->
-                <!--<h:outputText styleClass="myFont" value="Code:"/> <h:inputText id="captchaCode" value="#{loginBackingBeanNo.captchaCode}" label="Captcha code here"/>-->
-                <!--</div>-->
-                <!--add to captcha-->
-
-
                 <p:commandButton id="login" value="#{msg['LoginButton']}" action="#{loginBackingBean.LoginCorrect()}"
                                  ajax="true" update="loginGrowl"
-                                 styleClass="aButton" />
+                                 styleClass="aButton"/>
                 <br/>
-                <!--<div id="captcha" class="g-recaptcha" data-sitekey="6LcYjGgUAAAAABQBUOcNUHgJGHdrK2WAGNHREnYJ"/>-->
-                <!--<br/>-->
             </h:form>
         </div>
     </h:body>

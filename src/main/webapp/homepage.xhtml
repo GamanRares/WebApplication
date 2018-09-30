@@ -135,8 +135,6 @@
                         </p:column>
                     </p:submenu>
 
-                    <!--or we can choose this option: <p:menuitem value="Logout" action="#{homepageBackingBean.goTo('/login.xhtml')}"-->
-                    <!--ajax="false"/>-->
                     <p:menuitem value="#{msg['Logout']}" url="login.xhtml" icon="ui-icon-close"
                                 action="#{loginBackingBean.logout}"/>
                 </p:megaMenu>
@@ -151,14 +149,6 @@
             </h:panelGroup>
         </div>
     </h:body>
-
-
-    <!--<h:outputLabel value="Admin components: "/>-->
-
-    <!--<h:panelGroup id="include" rendered="#{loginBackingBean.hasRight('BUG_EXPORT_PDF')}">-->
-    <!--<ui:include src="PermissionComponents/BUG_CLOSE/CloseBug.xhtml"/>-->
-    <!--</h:panelGroup>-->
-
 
 </f:view>
 </html>

@@ -58,18 +58,19 @@ public class LoginBackingBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        this.goTo();
+//        this.goTo();
     }
 
-    public void goTo() {
+    private void goTo() {
         String userAgent = FacesContext.getCurrentInstance().getExternalContext().getRequestHeaderMap().get("User-Agent");
 
-//        if (!userAgent.matches(".*(Chrome/([0-9]{3,}|3[6-9]|[4-9][0-9])|Firefox/([0-9]{3,}|3[1-9]|[4-9][0-9])).*")) {
-//            this.redirect();
-//        }
+        if (!userAgent.matches(".*(Chrome/([0-9]{3,}|3[6-9]|[4-9][0-9])|Firefox/([0-9]{3,}|3[1-9]|[4-9][0-9])).*")) {
+            this.redirect();
+        }
+
     }
 
-    public void redirect() {
+    private void redirect() {
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("InvalidPage.xhtml");
         } catch (IOException e) {

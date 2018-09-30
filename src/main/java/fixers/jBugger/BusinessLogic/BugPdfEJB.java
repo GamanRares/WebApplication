@@ -17,9 +17,6 @@ import java.net.MalformedURLException;
 public class BugPdfEJB implements Serializable {
 
     @Inject
-    private UserEJB userEJB;
-
-    @Inject
     private ViewBugsBackingBean viewBugsBackingBean;
 
     public byte[] createBugPdf() throws Exception {

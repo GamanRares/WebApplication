@@ -58,6 +58,7 @@ public class BugEJB implements Serializable {
         bug.setTitle(updated.getTitle());
         bug.setDescription(updated.getDescription());
         bug.setVersion(updated.getVersion());
+        bug.setFixingVersion(updated.getFixingVersion());
         bug.setAssignedTo(updated.getAssignedTo());
         bug.setSeverity(updated.getSeverity());
         bug.setNotification(updated.getNotification());
