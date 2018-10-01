@@ -90,6 +90,7 @@ public class AddUserBackingBean implements Serializable {
         this.userEmail = null;
         this.userPassword = null;
         this.userRoles = null;
+
     }
 
     private String generateNotificationMessage(String username) {

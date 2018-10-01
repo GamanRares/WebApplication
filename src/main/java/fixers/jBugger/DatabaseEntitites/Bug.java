@@ -16,9 +16,6 @@ import java.util.Date;
 @Entity
 public class Bug implements Serializable {
 
-    public Bug() {
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
@@ -35,7 +32,7 @@ public class Bug implements Serializable {
 
     private long fixingVersion;
 
-    Date targetDate;
+    private Date targetDate;
 
     @Enumerated(EnumType.STRING)
     private BugSeverityEnum severity;

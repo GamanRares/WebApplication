@@ -17,24 +17,24 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                              rowsPerPageTemplate="5,10,15"
                 >
-                    <p:column id="c1" headerText="ID" sortBy="#{notification.notification_id}"
+                    <p:column id="c1" headerText="#{msg['Id']}" sortBy="#{notification.notification_id}"
                               filterBy="#{notification.notification_id}">
                         <h:outputText value="#{notification.notification_id.toString()}"/>
                     </p:column>
 
-                    <p:column id="c2" headerText="TYPE" sortBy="#{notification.notificationTypeEnum}"
+                    <p:column id="c2" headerText="#{msg['Type']}" sortBy="#{notification.notificationTypeEnum}"
                               filterBy="#{notification.notificationTypeEnum}"
                               filterMatchMode="contains">
                         <h:outputText value="#{notification.notificationTypeEnum}"/>
                     </p:column>
 
-                    <p:column id="c3" headerText="MESSAGE" sortBy="#{notification.notificationMessage}"
+                    <p:column id="c3" headerText="#{msg['Message']}" sortBy="#{notification.notificationMessage}"
                               filterBy="#{notification.notificationMessage}"
                               filterMatchMode="contains">
                         <h:outputText value="#{notification.notificationMessage}" escape="false"/>
                     </p:column>
 
-                    <p:column id="c4" headerText="ADDED DATE" sortBy="#{notification.addedDate}"
+                    <p:column id="c4" headerText="#{msg['AddedDate']}" sortBy="#{notification.addedDate}"
                               filterBy="#{notification.addedDate}"
                               filterMatchMode="contains">
                         <h:outputText value="#{notification.addedDate}"/>

@@ -102,7 +102,7 @@ public class RolesRightsBackingBean implements Serializable {
         setChecked(testManagerRole);
     }
 
-    public void updateRoleRights(Role givenRole) {
+    private void updateRoleRights(Role givenRole) {
         List<Right> newRightList = new ArrayList<>();
 
         if (givenRole.isBugCloseChecked())
@@ -123,7 +123,7 @@ public class RolesRightsBackingBean implements Serializable {
         givenRole.setRights(newRightList);
     }
 
-    public void setChecked(Role role) {
+    private void setChecked(Role role) {
         role.setBugCloseChecked(role.isBugCloseChecked());
         role.setBugExportChecked(role.isBugExportChecked());
         role.setBugManagementChecked(role.isBugManagementChecked());

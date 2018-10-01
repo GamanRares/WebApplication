@@ -66,6 +66,7 @@ public class NotificationEJB implements Serializable {
         Notification notification = createNotification(date, message, notificationTypeEnum, administrators);
 
         this.businessLogic.getEm().persist(notification);
+
     }
 
     public void sendNotificationToUserManagers(LocalDate date, String message, NotificationTypeEnum notificationTypeEnum) {
@@ -83,6 +84,7 @@ public class NotificationEJB implements Serializable {
         Notification notification = createNotification(date, message, notificationTypeEnum, uniqueManagers);
 
         this.businessLogic.getEm().persist(notification);
+
     }
 
     private Notification createNotification(LocalDate date, String message, NotificationTypeEnum notificationTypeEnum, List<User> users) {

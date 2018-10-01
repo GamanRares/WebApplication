@@ -1,0 +1,65 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <p:growl id="viewUsersGrowl" showDetail="true" sticky="false"/>
+
+        <div class="centered">
+            <h:form id="viewUsers">
+                <h3 class="title"><h:outputText value="#{msg['Users']}"/></h3>
+
+                <p:dataTable var="user" value="#{viewUsersBackingBean}"
+                             id="userTable"
+                             rowKey="#{user.username}" lazy="true" paginator="true" rows="5"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15"
+                >
+                    <p:column id="c1" headerText="#{msg['Username']}" sortBy="#{user.username}" filterBy="#{user.username}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{user.username}"/>
+                    </p:column>
+
+                    <p:column id="c2" headerText="#{msg['FirstName']}" sortBy="#{user.firstName}" filterBy="#{user.firstName}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{user.firstName}"/>
+                    </p:column>
+
+                    <p:column id="c3" headerText="#{msg['LastName']}" sortBy="#{user.lastName}" filterBy="#{user.lastName}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{user.lastName}"/>
+                    </p:column>
+
+                    <p:column id="c4" headerText="#{msg['Email']}" sortBy="#{user.email}" filterBy="#{user.email}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{user.email}"/>
+                    </p:column>
+
+                    <p:column id="c5" headerText="#{msg['MobileNumber']}" sortBy="#{user.mobileNumber}"
+                              filterBy="#{user.mobileNumber}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{user.mobileNumber}"/>
+                    </p:column>
+
+                    <p:column id="c6" headerText="#{msg['Roles']}" sortBy="#{user.role}"
+                              filterBy="#{user.role}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{user.role}"/>
+                    </p:column>
+
+                    <p:column id="c7" headerText="#{msg['IsActive']}" sortBy="#{user.active}"
+                              filterBy="#{user.active}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{user.active}"/>
+                    </p:column>
+
+                </p:dataTable>
+                <br/>
+                <br/>
+
+            </h:form>
+        </div>
+    </f:view>
+</ui:composition>

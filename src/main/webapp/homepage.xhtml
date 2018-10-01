@@ -71,6 +71,9 @@
 
                         <p:column>
                             <p:submenu label="#{msg['ManageUser']}">
+                                <p:menuitem value="#{msg['ViewUsers']}"
+                                            action="#{homepageBackingBean.navigateToPage('WEB-INF/RightsComponents/USER_MANAGEMENT/ViewUser.xhtml')}"
+                                            ajax="false"/>
                                 <p:menuitem value="#{msg['AddUser']}"
                                             action="#{homepageBackingBean.navigateToPage('WEB-INF/RightsComponents/USER_MANAGEMENT/AddUser.xhtml')}"
                                             ajax="false"/>

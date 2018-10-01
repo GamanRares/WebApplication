@@ -17,7 +17,6 @@ import java.util.List;
 @Table(name = "User_Entity")
 public class User implements Serializable {
 
-
     @NotNull
     @Id
     private String username = "asd";
@@ -47,7 +46,7 @@ public class User implements Serializable {
     @Column(name = "IS_ACTIVE")
     private boolean isActive;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "USERNAME"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
@@ -63,7 +62,9 @@ public class User implements Serializable {
     private List<Bug> bugsAssigned;
 
     public String toString() {
+
         return this.username;
+
     }
 
 }

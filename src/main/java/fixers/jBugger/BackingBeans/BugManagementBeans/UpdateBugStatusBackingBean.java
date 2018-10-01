@@ -41,7 +41,6 @@ public class UpdateBugStatusBackingBean implements Serializable {
 
     private List<String> users = new ArrayList<>();
 
-
     @Inject
     private BugEJB bugEJB;
 
@@ -148,6 +147,7 @@ public class UpdateBugStatusBackingBean implements Serializable {
 
 
     public void onCellEdit(CellEditEvent event) {
+
         String newValue = (String) event.getNewValue();
 
         editedBug = (Bug) ((DataTable) event.getComponent()).getRowData();
@@ -178,6 +178,7 @@ public class UpdateBugStatusBackingBean implements Serializable {
 
             GrowlMessage.sendMessage("Info !", "Bug updated successfully !");
         }
+
     }
 
     public void closeBugStatus() {
@@ -205,6 +206,7 @@ public class UpdateBugStatusBackingBean implements Serializable {
 
             GrowlMessage.sendMessage("Success", "Bug updated !");
         }
+
     }
 
     private String generateNotificationMessage(Bug editedBug, String oldStatus) {
@@ -236,6 +238,7 @@ public class UpdateBugStatusBackingBean implements Serializable {
     }
 
     private BugStatusEnum convertStatus(String value) {
+
         switch (value) {
             case "new":
                 return BugStatusEnum.NEW;
@@ -250,4 +253,5 @@ public class UpdateBugStatusBackingBean implements Serializable {
         }
         return null;
     }
+
 }

@@ -52,7 +52,6 @@ public class UserEJB implements Serializable {
 
     }
 
-
     public List<User> getUsers() {
 
         CriteriaBuilder builder = businessLogic.getEm().getCriteriaBuilder();
@@ -148,6 +147,7 @@ public class UserEJB implements Serializable {
 
         User user = businessLogic.getEm().createQuery(update).getSingleResult();
         setUserAttributes(firstName, lastName, mobileNumber, email, isActive, password, roles, "", user);
+
     }
 
     public void deactivateUser(String username) {

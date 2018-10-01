@@ -1,13 +1,13 @@
-package fixers.jBugger.BackingBeans.BugManagementBeans;
+package fixers.jBugger.BackingBeans.UserManagementBeans;
 
-import fixers.jBugger.BackingBeans.UserManagementBeans.AddUserBackingBean;
+import fixers.jBugger.BusinessLogic.UserEJB;
 import fixers.jBugger.DatabaseEntitites.User;
 import lombok.Data;
-import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
-import javax.faces.view.ViewScoped;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.lang.reflect.Field;
@@ -16,32 +16,38 @@ import java.util.stream.Collectors;
 
 @Data
 @Named
-@ViewScoped
-public class TableBackingBean extends LazyDataModel<User> {
-    private User selectedUser;
-    private String outputMessage;
+@RequestScoped
+public class ViewUsersBackingBean extends LazyDataModel<User> {
+
+    private List<User> userList = new ArrayList<>();
 
     @Inject
-    private AddUserBackingBean addUserBackingBean;
+    private UserEJB userEJB;
 
-    public void rowSelected(SelectEvent event) {
-        outputMessage = selectedUser.getUsername();
+    @PostConstruct
+    public void init() {
+
+        this.userList = this.userEJB.getUsers();
+
     }
 
     @Override
     public User getRowData(String rowKey) {
-        return addUserBackingBean.getUsers().stream().filter(a -> a.getUsername().equals(rowKey)).collect(Collectors.toList()).get(0);
+        return this.userList.stream()
+                .filter(a -> a.getUsername().equals(rowKey))
+                .collect(Collectors.toList())
+                .get(0);
     }
 
     @Override
     public Object getRowKey(User user) {
-        return addUserBackingBean.getUserFirstName();
+        return user.getUsername();
     }
 
     @Override
     public List<User> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         List<User> filteredList = new ArrayList<>();
-        addUserBackingBean.getUsers().forEach(userBackingBean -> {
+        this.userList.forEach(user -> {
             boolean match = true;
             if (filters != null) {
                 for (Iterator<String> it = filters.keySet().iterator(); it.hasNext(); ) {
@@ -49,9 +55,9 @@ public class TableBackingBean extends LazyDataModel<User> {
                         String filterProperty = it.next();
                         Object filterValue = filters.get(filterProperty);
 
-                        Field privateStringField = userBackingBean.getClass().getDeclaredField(filterProperty);
+                        Field privateStringField = user.getClass().getDeclaredField(filterProperty);
                         privateStringField.setAccessible(true);
-                        String fieldValue = privateStringField.get(userBackingBean).toString();
+                        String fieldValue = privateStringField.get(user).toString();
 
                         if (filterValue == null || fieldValue.contains(filterValue.toString())) {
                             match = true;
@@ -65,13 +71,13 @@ public class TableBackingBean extends LazyDataModel<User> {
                 }
             }
             if (match) {
-                filteredList.add(userBackingBean);
+                filteredList.add(user);
             }
         });
 
         int dataSize = filteredList.size();
         if (sortField != null) {
-            Collections.sort(filteredList, new TableBackingBean.UserSorter(sortField, sortOrder));
+            Collections.sort(filteredList, new ViewUsersBackingBean.UserSorter(sortField, sortOrder));
         }
         this.setRowCount(dataSize);
 

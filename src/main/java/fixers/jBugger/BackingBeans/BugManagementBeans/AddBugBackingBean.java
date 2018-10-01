@@ -11,18 +11,13 @@ import fixers.jBugger.BusinessLogic.UserEJB;
 import fixers.jBugger.DatabaseEntitites.Notification;
 import fixers.jBugger.DatabaseEntitites.User;
 import lombok.Data;
-import org.primefaces.PrimeFaces;
 import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIOutput;
-import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.ConstraintViolationException;
@@ -31,7 +26,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 
 @Data
@@ -78,11 +72,6 @@ public class AddBugBackingBean implements Serializable {
 
     }
 
-    public void clickCalendar() {
-        PrimeFaces.current().ajax().update("form:display");
-        PrimeFaces.current().executeScript("PF('dlg').show()");
-    }
-
     public void upload() {
         //TODO when adding a bug in database you must also set the type : image/document for now
         //TODO if the same attachment wants to be uploaded we should not create another instance for it if it exists
@@ -94,8 +83,7 @@ public class AddBugBackingBean implements Serializable {
             if (extension.length == 2 && extension[1].matches("^(pdf|doc|docx|odf|xlsx|xls|jpg|jpeg|png|gif|bmp)$")) {
                 attachment = uploadedFile.getContents();
                 attachmentName = uploadedFile.getFileName();
-                FacesMessage message = new FacesMessage("Succesful", uploadedFile.getFileName() + " is uploaded.");
-                FacesContext.getCurrentInstance().addMessage(null, message);
+                GrowlMessage.sendMessage("Successful", uploadedFile.getFileName() + " is uploaded.");
 
                 this.memorizeValuesBackingBean.setOldAttachment(attachment);
                 this.memorizeValuesBackingBean.setOldAttachmentName(attachmentName);
@@ -124,21 +112,28 @@ public class AddBugBackingBean implements Serializable {
     }
 
     private void convertCreatedBy() {
+
         String createdByUsername = loginBackingBean.getCurrentlyLoggedInUsername();
         createdByUser = userEJB.findUserByUsername(createdByUsername);
+
     }
 
     private void convertAssignedTo() {
+
         assignedToUser = userEJB.findUserByUsername(assignedToUsername);
+
     }
 
     private void convertBugFields() {
+
         convertSeverity();
         convertCreatedBy();
         convertAssignedTo();
+
     }
 
     public void saveBug() {
+
         convertBugFields();
         if (this.assignedToUser != null) {
 
@@ -168,6 +163,7 @@ public class AddBugBackingBean implements Serializable {
             }
         } else
             GrowlMessage.sendMessage("Error !", "User assigned to doesn't exist");
+
     }
 
     public void handleChange(AjaxBehaviorEvent event) {
